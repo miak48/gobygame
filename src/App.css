@@ -20,3 +20,11 @@
 .App-link {
   color: #09d3ac;
 }
+.square {
+  height: 20px;
+  width: 20px;
+  position: fixed;
+  top: 100px;
+  left: 100px;
+  background-color: purple;
+}
