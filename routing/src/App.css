@@ -1,7 +1,7 @@
-.App {
+.Welcome {
   text-align: center;
   background-color: rgb(34, 30, 30);
-}
+} 
 
 .background-gravel {
   height: 100vh;
@@ -14,7 +14,11 @@
   left: 100px;
   background-color: purple;
 }
+.HomePage {
+  text-align: center;
+  background-color:black;
+} 
 
 .goby_home {
-  width: 5px
+  width: 100vw;
 }
