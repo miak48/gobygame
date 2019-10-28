@@ -1,12 +1,12 @@
 import React from 'react';
 import background from '../../assets/images/gravel2.png';
-import '../../assets/css/main.css';
+import styles from './Game.module.scss';
 
 function Game() {
   return (
-    <div className="Game">
-        <img src={background} className="background-gravel" />
-        <div className="square"/>
+    <div className={styles.Game}>
+        <img src={background} className={styles.backgroundGravel} />
+        <div className={styles.square} />
     </div>
   );
 }
