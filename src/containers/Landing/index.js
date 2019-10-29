@@ -10,6 +10,7 @@ function Landing() {
       <img src={goby_home} alt="" />
       <h1>Goby Game </h1>
       <h4>a description of the game to go here</h4>
+      <Link to='/game'>Start Game</Link>
     </div>
   );
 }
