@@ -1,14 +1,14 @@
 import React from 'react';
 import background from '../../assets/images/gravel2.png';
-import styles from './Game.module.scss';
+import styles from './DemoPage.module.scss';
 
-function Game() {
+function DemoPage() {
   return (
-    <div className={styles.Game}>
+    <div className={styles.DemoPage}>
         <img src={background} alt=" " className={styles.backgroundGravel} />
         <div className={styles.square} />
     </div>
   );
 }
 
-export default Game;
+export default DemoPage;

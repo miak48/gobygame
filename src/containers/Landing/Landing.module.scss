@@ -1,18 +1,39 @@
-.backgroundgoby { 
-  width: 100vw;
+/* this 'overallstyle' doesn't seem to be doing anything.
+Ideally, these settings would replace the need to have h1 and h4 guides
+but I've tried removing the h1 and h4 guides and text goes back to being black
+and below the image*/
+.overallstyle{
   position: absolute;
+  text-align: center;
+  color: white;
+}
+
+.backgroundgoby { 
+  width:100vw;
 }
 
 h1 { 
   position: absolute; 
-  top: 150px; 
+  font-size:4rem;
+  top: 50px; 
   left: 500; 
   color: white;
 }
 
 h4 { 
   position: absolute; 
-  top: 200px; 
+  top: 175px; 
   left: 200; 
   color: white;
+}
+
+button {
+  display: inline-block;
+  border: none;
+  padding: 1rem 1rem;
+  margin: 0;
+  background: rgb(68, 155, 107);
+  color: #ffffff;
+  font-family: sans-serif;
+  font-size: 1.5rem;
 }
