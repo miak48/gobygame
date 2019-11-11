@@ -1,0 +1,44 @@
+.Demo {
+    text-align: center;
+    background-color: rgb(34, 30, 30);
+}
+  
+.backgroundGravel {
+    height: 100vh;
+}
+
+h1 { 
+    position: absolute; 
+    font-size:4rem;
+    top: 50px; 
+    left: 500; 
+    color: white;
+  }
+  
+  h4 { 
+    position: absolute; 
+    top: 175px; 
+    left: 200; 
+    color: white;
+  }
+  
+.square {
+    height: 20px;
+    width: 80px;
+    position: fixed;
+    top: 100px;
+    left: 100px;
+    background-color: whitesmoke;
+}
+
+
+button {
+    display: inline-block;
+    border: none;
+    padding: 1rem 1rem;
+    margin: 0;
+    background: rgb(68, 155, 107);
+    color: #ffffff;
+    font-family: sans-serif;
+    font-size: 1.5rem;
+  }
