@@ -56,11 +56,11 @@
       -webkit-text-stroke: 3px rgb(27, 179, 95);
       font-weight: 3;
       font-size: 7rem;
-      animation: pulse 1s infinite;
+      animation: pulsebutton 1s infinite;
     animation-timing-function: linear;   
   }
   
-    @keyframes pulse {
+    @keyframes pulsebutton {
       0% { transform: scale(1); }
       50% { transform: scale(1.1);
       100% { transform: scale(1); }
@@ -72,14 +72,14 @@
     display: inline-block;
     height: 70px; 
     z-index: 1;
-    animation: pulse1 2s infinite;
+    animation: pulse 2s infinite;
 
     // Move this here
     position: absolute;
     left: 900px;
     top: 300px; 
 
-    @keyframes pulse1 {
+    @keyframes pulse {
         0% { filter: sepia(100%) 
             saturate(300%) 
             brightness(70%) 
@@ -108,9 +108,9 @@
     left: 700px;
     top: 200px; 
 
-    animation: pulse 2s infinite;
+    animation: pulse2 2s infinite;
 
-    @keyframes pulse {
+    @keyframes pulse2 {
         0% { transform: rotate(68deg);
             filter: sepia(100%) 
             saturate(300%) 
