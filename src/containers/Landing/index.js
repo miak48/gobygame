@@ -5,7 +5,7 @@ import styles from './Landing.module.scss';
 const Landing = () => {
   return (
     <div className={styles.Background}>
-      <div className={styles.instructions}>
+      <div className={styles.Title}>
         <h1>Goby Game</h1>
         <h4> This fish is a Goby. They use camouflage to blend into their background! 
           While this background-blending is great when it comes to avoiding detection by deadly predators, 
