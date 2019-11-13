@@ -1,47 +1,131 @@
-.Demo {
-    text-align: center;
-    background-color: rgb(34, 30, 30);
-}
-  
-.backgroundGravel {
+.demobackground {
     height: 100vh;
-}
+    width: 100vw;
+    background-color: black;
+    background-image: url(./assets/gravel2.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: bottom;
+  }
+  
+  .Instructions {
+    margin: 0px;
+    color: white;
+    width: 260px;
+  
+    // Move this here
+    position: absolute;
+    left: 40px;
+    top: -10px;
+  
+    display: flex;
+    flex-direction: column;
+    //text-align: center, right or left // defaults to left
+  
+    h1 {
+    color: white;
+    -webkit-text-stroke: 2px rgb(243, 211, 66);
+    font-size:4rem;
+    font-family: 'Montserrat', sans-serif;
+    }
+    h4 {
+    font-size:1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: normal;
+    text-shadow: black 0.1em 0.1em 0.2em;
+    }
+  }
 
-// You do not want to create global styles like that. Always use classNames to provide styles
-// rather than making rules about how a particular html tag should behave
-//
-//h1 {
-//    position: absolute;
-//    font-size:4rem;
-//    top: 50px;
-//    left: 500;
-//    color: white;
-//  }
-//
-//  h4 {
-//    position: absolute;
-//    top: 175px;
-//    left: 200;
-//    color: white;
-//  }
-//
-.square {
-    height: 20px;
-    width: 80px;
-    position: fixed;
-    top: 100px;
-    left: 100px;
-    background-color: whitesmoke;
-}
+  .DemoButton {
+    display: inline-block;
+    border: transparent;
+    background: transparent;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 3;
+    font-size: 7rem;
+    color:rgb(27, 179, 95);
+    -webkit-text-stroke: 3px rgb(243, 211, 66);
+  
+    // Move this here
+    position: absolute;
+    bottom: 50px;
+    left: 20px;
+  
+    &:hover {
+      color:rgb(243, 211, 66);
+      -webkit-text-stroke: 3px rgb(27, 179, 95);
+      font-weight: 3;
+      font-size: 7rem;
+      animation: pulse 1s infinite;
+    animation-timing-function: linear;   
+  }
+  
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1);
+      100% { transform: scale(1); }
+      }
+    } 
+  }
 
+  .gobyimage {
+    display: inline-block;
+    height: 70px; 
+    z-index: 1;
+    animation: pulse1 2s infinite;
 
-//button {
-//    display: inline-block;
-//    border: none;
-//    padding: 1rem 1rem;
-//    margin: 0;
-//    background: rgb(68, 155, 107);
-//    color: #ffffff;
-//    font-family: sans-serif;
-//    font-size: 1.5rem;
-//  }
+    // Move this here
+    position: absolute;
+    left: 900px;
+    top: 300px; 
+
+    @keyframes pulse1 {
+        0% { filter: sepia(100%) 
+            saturate(300%) 
+            brightness(70%) 
+            hue-rotate(90deg);}
+        50% { filter: sepia(100%) 
+            saturate(300%) 
+            brightness(70%) 
+            hue-rotate(90deg);
+        100% { filter: sepia(100%) 
+            saturate(300%) 
+            brightness(70%) 
+            hue-rotate(90deg); }
+        }
+    }   
+  }
+
+  .gobyimage2 {
+    display: inline-block;
+    //transform-origin: 90% 90%;
+    transform: rotate(68deg);
+    height: 70px; 
+    z-index: 1;
+    
+    // Move this here
+    position: absolute;
+    left: 700px;
+    top: 200px; 
+
+    animation: pulse 2s infinite;
+
+    @keyframes pulse {
+        0% { transform: rotate(68deg);
+            filter: sepia(100%) 
+            saturate(300%) 
+            brightness(70%) 
+            hue-rotate(90deg);}
+        50% { transform: rotate(68deg);
+            filter: sepia(100%) 
+            saturate(300%) 
+            brightness(70%) 
+            hue-rotate(90deg);
+        100% { transform: rotate(68deg);
+            filter: sepia(100%) 
+            saturate(300%) 
+            brightness(70%) 
+            hue-rotate(90deg); }
+        }
+    }
+  }

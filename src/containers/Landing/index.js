@@ -5,13 +5,18 @@ import styles from './Landing.module.scss';
 const Landing = () => {
   return (
     <div className={styles.Background}>
-      <div className={styles.Title}>
+      <div className={styles.instructions}>
         <h1>Goby Game</h1>
-        <h4>An awesome description of how to play this fun game!</h4>
+        <h4> This fish is a Goby. They use camouflage to blend into their background! 
+          While this background-blending is great when it comes to avoiding detection by deadly predators, 
+          it's not so great when it comes to finding food or mates. Our lab at the University of Sydney is
+          currently trying to understand how these fish balance the need to move against 
+          the need to stay still. If you want to help us, try our game! You'll play the part of the 
+          predator searching for a yummy goby meal. </h4>
       </div>
       <Link to="/Demo">
         <button className={styles.CustomButton}>
-          View Demo
+          Play
         </button>
       </Link>
     </div>
