@@ -73,6 +73,7 @@
     height: 70px; 
     z-index: 1;
     animation: pulse 2s infinite;
+    animation-direction: alternate;
 
     // Move this here
     position: absolute;
@@ -91,7 +92,7 @@
         100% { filter: sepia(100%) 
             saturate(300%) 
             brightness(70%) 
-            hue-rotate(90deg); }
+            hue-rotate(90deg); }  
         }
     }   
   }
@@ -109,6 +110,7 @@
     top: 200px; 
 
     animation: pulse2 2s infinite;
+    animation-direction: alternate;
 
     @keyframes pulse2 {
         0% { transform: rotate(68deg);
