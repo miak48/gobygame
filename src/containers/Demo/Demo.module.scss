@@ -11,7 +11,7 @@
   .Instructions {
     margin: 0px;
     color: white;
-    width: 260px;
+    width: 800px;
   
     // Move this here
     position: absolute;
@@ -29,11 +29,22 @@
     font-family: 'Montserrat', sans-serif;
     }
     h4 {
-    font-size:1rem;
+    width: 600px;
+    font-size:1.5rem;
     font-family: 'Montserrat', sans-serif;
     font-weight: normal;
     text-shadow: black 0.1em 0.1em 0.2em;
     }
+  }
+
+  .rectangle {
+    height: 900px;
+    width: 575px;
+    position: fixed;
+    top: 0px;
+    left: 60px;
+    background-color: black;
+    opacity: .4;
   }
 
   .DemoButton {
@@ -130,4 +141,48 @@
             hue-rotate(90deg); }
         }
     }
+  }
+
+
+.GiveupButton {
+  display: inline-block;
+  color: red;
+  background: transparent;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 2;
+  font-size: 2rem;
+  text-align: center;
+  text-decoration: none;
+  //margin: 4px 4px;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  border: 2px solid red;
+
+  // Move this here
+  position: absolute;
+  bottom: 50px;
+  left: 1220px;
+
+  &:hover {
+    border: 2px solid white;
+    background: red;
+    color: white;
+    font-weight: 2;
+    font-size: 2rem;
+  }
+}
+
+  // this is where I would like the timer to go
+  // Ideally, it would look something like this: https://codepen.io/zebateira/pen/VvqJwm
+  .TimerCircle{
+    display: inline-block;
+    background: rgba(58, 143, 90, 0.726);
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    border: 3px solid rgb(71, 212, 71);
+    position: absolute;
+    bottom: 600px;
+    left: 1245px;
   }
