@@ -16,3 +16,29 @@
   left: 100px;
   background-color: purple;
 }
+
+
+.gobyimage {
+  display: inline-block;
+  height: 70px; 
+  z-index: 1;
+  opacity: .9;
+  filter: contrast(100%);
+
+  // Move this here
+  position: absolute;
+  left: 400px;
+  top: 200px; 
+}
+
+.gobyimage2 {
+  display: inline-block;
+  height: 95px; 
+  opacity: .9;
+  filter: contrast(100%);
+
+  // Move this here
+  position: absolute;
+  left: 800px;
+  top: 400px; 
+}

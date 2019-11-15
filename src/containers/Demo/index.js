@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import styles from './Demo.module.scss';
-import goby_fig from './assets/goby.png';
-import goby_fig2 from './assets/goby.png';
+//import goby_fig from './assets/goby.png';
+import goby_fig from './assets/realgoby.png';
+import goby_fig2 from './assets/realgoby2.png';
 
 function Demo() {
   return (
