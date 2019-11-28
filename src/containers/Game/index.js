@@ -34,7 +34,6 @@ function Game({totalTime}) {
 
     return (
         <div className={styles.Game}>
-            hello World
             <img src={goby_fig} className={styles.gobyimage}/>
             <img src={goby_fig2} className={styles.gobyimage2}/>
             <img src={background} className={styles.backgroundGravel}/>
