@@ -8,16 +8,6 @@
   height: 100vh;
 }
 
-.square {
-  height: 20px;
-  width: 80px;
-  position: fixed;
-  top: 100px;
-  left: 100px;
-  background-color: purple;
-}
-
-
 .gobyimage {
   display: inline-block;
   height: 70px; 
@@ -41,4 +31,13 @@
   position: absolute;
   left: 800px;
   top: 400px; 
+}
+
+.timer {
+  background-color: green;
+  height: 20px;
+  position: fixed;
+  bottom: 10px;
+  left: 0;
+  width: 100%;
 }
