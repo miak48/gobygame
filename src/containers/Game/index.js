@@ -1,14 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import background from '../../assets/images/gravel2_iphone.jpg';
 import styles from './Game.module.scss';
 import {Goby} from '../../components/Goby/Goby';
 import {Link} from "react-router-dom";
 import axios from 'axios';
+import UserContext from "../../context/userContext";
 
 
 const Game = ({totalTime}) => {
   const [count, setCount] = useState(totalTime);
   const [isActive, setIsActive] = useState(true);
+  const user = useContext(UserContext);
 
   useEffect(() => {
     let interval = null;
@@ -35,7 +37,7 @@ const Game = ({totalTime}) => {
         const response = await axios.post(
           'http://localhost:8000/api/result',
           {
-            user: 'James',
+            uuid: user.uuid,
             round: 1,
             time: totalTime - count,
           },
@@ -76,7 +78,7 @@ const Game = ({totalTime}) => {
       <div className={styles.timer} style={{width: (count / totalTime) * 100 + '%'}}/>
 
       {!isActive &&
-      <Link to='/results'>
+      <Link to='/result'>
         <button className={styles.CustomButton}>
           Result
         </button>

@@ -1,13 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import axios from 'axios';
+import UserContext from "../../context/userContext";
+import styles from './Result.module.scss';
+import cx from 'classnames';
 
 
 const Result = () => {
-  const [results, setResults] = useState(() => []);
+  const [results, setResults] = useState(null);
+  const user = useContext(UserContext);
 
   useEffect(() => {
     async function fetchResults() {
-        const response = await axios.get('http://localhost:8000/api/results');
+      const response = await axios
+        .get('http://localhost:8000/api/results');
 
       setResults(response.data.data);
     }
@@ -16,18 +21,35 @@ const Result = () => {
       .catch(e => console.error(e));
   }, []);
 
-  console.log('Result', results)
-
   return (
-    <div>
-      Result Page:
-      {results.map((result, index) => (
-        <div key={index}>
-          <span>{result.user}</span>
-          <span>{result.round}</span>
-          <span>{result.time}</span>
-        </div>
-      ))}
+    <div className={styles.Results}>
+      <div className={styles.Grid}>
+
+        <div className={styles.Header}>User</div>
+        <div className={styles.Header}>Round</div>
+        <div className={styles.Header}>Time</div>
+        {results
+          ? results.map((result, index) => {
+            const isUserResult = user.uuid === result.uuid;
+            return (
+              <React.Fragment key={index}>
+                <div className={cx(styles.Cell, {[styles.UserCell]: isUserResult})}>
+                  {isUserResult ? 'You' : result.uuid}
+                </div>
+                <div className={cx(styles.Cell, {[styles.UserCell]: isUserResult})}>
+                  {result.round}
+                </div>
+                <div className={cx(styles.Cell, {[styles.UserCell]: isUserResult})}>
+                  {result.time}
+                </div>
+              </React.Fragment>
+            )
+          })
+          : <div className={styles.NoResults}>
+            No results at this time
+          </div>
+        }
+      </div>
     </div>
   )
 };
