@@ -6,12 +6,14 @@ import Landing from './containers/Landing';
 import Game from './containers/Game';
 import Demo from './containers/Demo';
 import * as serviceWorker from './serviceWorker';
+import Result from "./containers/Result";
 
 ReactDOM.render(
   <Router>
     <Route exact path="/" component={Landing} />
     <Route exact path="/demo" component={Demo} />
     <Route exact path="/game" component={Game} />
+    <Route exact path="/result" component={Result} />
   </Router>,
   document.getElementById('root')
 );

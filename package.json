@@ -1,8 +1,8 @@
 {
   "name": "gobygame",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
+    "axios": "^0.19.0",
     "node-sass": "^4.13.0",
     "prop-types": "^15.7.2",
     "react": "^16.11.0",
