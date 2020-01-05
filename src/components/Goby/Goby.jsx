@@ -4,37 +4,31 @@ import PropTypes from 'prop-types';
 
 
 export const Goby = ({initialPosition, nextPositionFn, count, moveInterval, onClick, isFound}) => {
+  const [{x, y}, setCoords] = useState(initialPosition);
+  useEffect(() => {
+    if (count % moveInterval === 0 && !isFound) {
+      setCoords(nextPositionFn({x, y}))
+    }
+  }, [count]);
 
-    const [gCount, setCount] = useState(0);
-    useEffect(() => {
-        if (count % moveInterval === 0) {
-            setCount(gCount => gCount + 1);
-        }
-    }, [count]);
-
-    const [{x, y}, setCoords] = useState(initialPosition);
-    useEffect(() => {
-        setCoords(nextPositionFn({x, y}))
-    }, [gCount]);
-
-    return (
-        <div
-            className={styles.square}
-            style={{
-                top: y,
-                left: x,
-                backgroundColor: !isFound ? 'purple' : 'green'
-            }}
-            onClick={onClick}
-        />
-    );
+  return (
+    <div
+      className={styles.square}
+      style={{
+        top: y,
+        left: x,
+        backgroundColor: !isFound ? 'purple' : 'green'
+      }}
+      onClick={onClick}
+    />
+  );
 };
 
 Goby.propTypes = {
-    initialPosition: PropTypes.object,
-    nextPositionFn: PropTypes.func,
-    count: PropTypes.number,
-    moveInterval: PropTypes.number,
-    onClick: PropTypes.func,
-    isFound: PropTypes.bool,
+  initialPosition: PropTypes.object,
+  nextPositionFn: PropTypes.func,
+  count: PropTypes.number,
+  moveInterval: PropTypes.number,
+  onClick: PropTypes.func,
+  isFound: PropTypes.bool,
 };

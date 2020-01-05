@@ -3,7 +3,7 @@ body {
   margin: 40px;
   display: flex;
   justify-content: center;
-  background-color: black;
+  //background-color: black;
 }
 
 .Results {
@@ -14,7 +14,7 @@ body {
 
 .Grid {
   display: grid;
-  grid-template-columns: 300px 100px 100px;
+  grid-template-columns: 300px 100px 150px;
   grid-gap: 10px;
   color: #444;
 }

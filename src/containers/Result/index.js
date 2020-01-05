@@ -27,7 +27,7 @@ const Result = () => {
 
         <div className={styles.Header}>User</div>
         <div className={styles.Header}>Round</div>
-        <div className={styles.Header}>Time</div>
+        <div className={styles.Header}>Time (ms)</div>
         {results
           ? results.map((result, index) => {
             const isUserResult = user.uuid === result.uuid;
@@ -40,7 +40,7 @@ const Result = () => {
                   {result.round}
                 </div>
                 <div className={cx(styles.Cell, {[styles.UserCell]: isUserResult})}>
-                  {result.time}
+                  {result.time.toFixed(2)}
                 </div>
               </React.Fragment>
             )

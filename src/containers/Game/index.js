@@ -7,52 +7,31 @@ import axios from 'axios';
 import {useUser} from "../../context/userContext";
 
 
-const Game = ({totalTime}) => {
-  const [count, setCount] = useState(totalTime);
-  const [isActive, setIsActive] = useState(true);
+const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemainingPercent}) => {
   const [user, dispatch] = useUser();
+  const [fish1, setFish1] = useState(null);
+  const [fish2, setFish2] = useState(null);
+  useState(() => {
+    startTimer();
+  });
+
+  const isFinished = () => fish1 !== null && fish2 !== null;
 
   useEffect(() => {
-    let interval = null;
-    if (isActive) {
-      interval = setInterval(() => {
-        setCount(count => count - 1);
-      }, 1000);
-    } else if (!isActive && count !== 0) {
-      clearInterval(interval);
+    if (isFinished()) {
+      stopTimer();
+
+      const headers = {headers: {'Content-Type': 'application/json'}};
+      const data = {
+        uuid: user.uuid,
+        round: user.round,
+        time: getTime(),
+      };
+
+      axios.post('http://localhost:8000/api/result', data, headers)
+        .then(() => dispatch({type: 'ROUND_INCREMENT'}));
     }
-    return () => clearInterval(interval);
-  }, [isActive, count]);
-
-
-  useEffect(() => {
-    if (count === 0) {
-      setIsActive(false);
-    }
-  }, [count]);
-
-  useEffect(() => {
-    if (!isActive) {
-      async function b() {
-        const response = await axios.post(
-          'http://localhost:8000/api/result',
-          {
-            uuid: user.uuid,
-            round: user.round,
-            time: totalTime - count,
-          },
-          {headers: {'Content-Type': 'application/json'}}
-        );
-
-        console.log(response.data)
-        dispatch({type: 'ROUND_INCREMENT'})
-      }
-
-      b();
-    }
-  }, [isActive]);
-
-  console.log('Game', count)
+  }, [fish1, fish2]);
 
   return (
     <div className={styles.Game}>
@@ -61,24 +40,24 @@ const Game = ({totalTime}) => {
       <Goby
         initialPosition={{x: 0, y: 100}}
         nextPositionFn={({x, y}) => ({x: x + 80, y: y})}
-        count={totalTime - count}
-        moveInterval={5}
-        onClick={() => setIsActive(false)}
-        isFound={!isActive}
+        count={secondsElapsed}
+        moveInterval={2}
+        onClick={() => setFish1(getTime())}
+        isFound={fish1 !== null}
       />
 
       <Goby
         initialPosition={{x: 100, y: 0}}
         nextPositionFn={({x, y}) => ({x: x, y: y + 80})}
-        count={totalTime - count}
+        count={secondsElapsed}
         moveInterval={1}
-        onClick={() => setIsActive(false)}
-        isFound={!isActive}
+        onClick={() => setFish2(getTime())}
+        isFound={fish2 !== null}
       />
 
-      <div className={styles.timer} style={{width: (count / totalTime) * 100 + '%'}}/>
+      <div className={styles.timer} style={{width: timeRemainingPercent}}/>
 
-      {!isActive &&
+      {isFinished() &&
       <Link to='/result'>
         <button className={styles.CustomButton}>
           Result
@@ -87,10 +66,6 @@ const Game = ({totalTime}) => {
       }
     </div>
   );
-};
-
-Game.defaultProps = {
-  totalTime: 30,
 };
 
 export default Game;
