@@ -1,16 +1,16 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import background from '../../assets/images/gravel2_iphone.jpg';
 import styles from './Game.module.scss';
 import {Goby} from '../../components/Goby/Goby';
 import {Link} from "react-router-dom";
 import axios from 'axios';
-import UserContext from "../../context/userContext";
+import {useUser} from "../../context/userContext";
 
 
 const Game = ({totalTime}) => {
   const [count, setCount] = useState(totalTime);
   const [isActive, setIsActive] = useState(true);
-  const user = useContext(UserContext);
+  const [user, dispatch] = useUser();
 
   useEffect(() => {
     let interval = null;
@@ -38,13 +38,14 @@ const Game = ({totalTime}) => {
           'http://localhost:8000/api/result',
           {
             uuid: user.uuid,
-            round: 1,
+            round: user.round,
             time: totalTime - count,
           },
           {headers: {'Content-Type': 'application/json'}}
         );
 
         console.log(response.data)
+        dispatch({type: 'ROUND_INCREMENT'})
       }
 
       b();

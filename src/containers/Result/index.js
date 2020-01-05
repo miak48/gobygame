@@ -1,13 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import UserContext from "../../context/userContext";
+import {useUser} from "../../context/userContext";
 import styles from './Result.module.scss';
 import cx from 'classnames';
 
 
 const Result = () => {
   const [results, setResults] = useState(null);
-  const user = useContext(UserContext);
+  const [user] = useUser();
 
   useEffect(() => {
     async function fetchResults() {
