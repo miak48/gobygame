@@ -9,13 +9,13 @@ import {useUser} from "../../context/userContext";
 
 const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemainingPercent}) => {
   const [user, dispatch] = useUser();
-  const [fish1, setFish1] = useState(null);
-  const [fish2, setFish2] = useState(null);
+  const [fishOne, setFishOne] = useState(null);
+  const [fishTwo, setFishTwo] = useState(null);
   useState(() => {
     startTimer();
   });
 
-  const isFinished = () => fish1 !== null && fish2 !== null;
+  const isFinished = () => fishOne !== null && fishTwo !== null;
 
   useEffect(() => {
     if (isFinished()) {
@@ -25,13 +25,14 @@ const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemainingPerc
       const data = {
         uuid: user.uuid,
         round: user.round,
-        time: getTime(),
+        fishOneTime: fishOne,
+        fishTwoTime: fishTwo,
       };
 
       axios.post('http://localhost:8000/api/result', data, headers)
         .then(() => dispatch({type: 'ROUND_INCREMENT'}));
     }
-  }, [fish1, fish2]);
+  }, [fishOne, fishTwo]);
 
   return (
     <div className={styles.Game}>
@@ -41,9 +42,9 @@ const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemainingPerc
         initialPosition={{x: 0, y: 100}}
         nextPositionFn={({x, y}) => ({x: x + 80, y: y})}
         count={secondsElapsed}
-        moveInterval={2}
-        onClick={() => setFish1(getTime())}
-        isFound={fish1 !== null}
+        moveInterval={1}
+        onClick={() => setFishOne(getTime())}
+        isFound={fishOne !== null}
       />
 
       <Goby
@@ -51,8 +52,8 @@ const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemainingPerc
         nextPositionFn={({x, y}) => ({x: x, y: y + 80})}
         count={secondsElapsed}
         moveInterval={1}
-        onClick={() => setFish2(getTime())}
-        isFound={fish2 !== null}
+        onClick={() => setFishTwo(getTime())}
+        isFound={fishTwo !== null}
       />
 
       <div className={styles.timer} style={{width: timeRemainingPercent}}/>
