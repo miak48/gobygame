@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 mongoose
-    .connect('mongodb://db:27017/gobygame', {
+    .connect(process.env.MONGODB_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
     .catch(e => {
-        console.error('Connection error', e.message)
+        console.error(`Connection error: ${process.env.MONGODB_URI}`, e.message)
     });
 
 const db = mongoose.connection;

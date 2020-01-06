@@ -7,6 +7,8 @@ services:
             - "8000:8000"
         links:
             - db
+        environment:
+          MONGODB_URI: mongodb://db:27017/gobygame
     db:
         image: mongo
         ports:

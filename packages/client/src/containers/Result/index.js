@@ -12,7 +12,7 @@ const Result = () => {
   useEffect(() => {
     async function fetchResults() {
       const response = await axios
-        .get('http://localhost:8000/api/results');
+        .get('/api/results');
 
       setResults(response.data.data);
     }

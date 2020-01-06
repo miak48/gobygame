@@ -29,7 +29,7 @@ const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemainingPerc
         fishTwoTime: fishTwo,
       };
 
-      axios.post('http://localhost:8000/api/result', data, headers)
+      axios.post('/api/result', data, headers)
         .then(() => dispatch({type: 'ROUND_INCREMENT'}));
     }
   }, [fishOne, fishTwo]);

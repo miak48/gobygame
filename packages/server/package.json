@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "docker-compose up -d --build"
+    "start": "docker-compose up -d --build",
+    "build": "echo 'not implemented'"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
