@@ -1,0 +1,45 @@
+
+body {
+  display: flex;
+  justify-content: center;
+  //background-color: black;
+}
+
+.Results {
+  background-color: wheat;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 40px;
+}
+
+.Grid {
+  display: grid;
+  grid-template-columns: 300px 100px 150px 150px;
+  grid-gap: 10px;
+  color: #444;
+}
+
+.Cell {
+  color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 150%;
+  overflow: hidden;
+  background-color: #444;
+}
+
+.Header {
+  @extend .Cell;
+  background-color: black;
+}
+
+.UserCell {
+  background-color: lightgray;
+}
+
+.NoResults {
+  @extend .Cell;
+  grid-column-end: span 4;
+  display: flex;
+  justify-content: center;
+}
