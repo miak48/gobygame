@@ -1,11 +1,13 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import styles from './Landing.module.scss';
+import Border from "../../components/Border/Border";
 
 const Landing = () => {
   const link = 'https://sydney.edu.au/science/our-research/research-areas/life-and-environmental-sciences/animal-behaviour-lab.html';
 
   return (
+    <Border>
     <div className={styles.Background}>
       <div className={styles.Title}>
         <h1>Goby Game</h1>
@@ -24,6 +26,7 @@ const Landing = () => {
         </button>
       </Link>
     </div>
+    </Border>
   );
 };
 

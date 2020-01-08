@@ -1,16 +1,18 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import styles from './Demo.module.scss';
 import goby_fig from './assets/realgoby.png';
 import goby_fig2 from './assets/realgoby2.png';
+import Border from "../../components/Border/Border";
 
 function Demo() {
   return (
-    <div className={styles.demobackground}>
-      <img src={goby_fig} alt=" " className={styles.gobyimage}/>
-      <img src={goby_fig2} alt=" " className={styles.gobyimage2}/>
-      <div className={styles.rectangle} />
-      <div className={styles.TimerCircle} />
+    <Border>
+      <div className={styles.Background}>
+        <img src={goby_fig} alt=" " className={styles.gobyimage}/>
+        <img src={goby_fig2} alt=" " className={styles.gobyimage2}/>
+        <div className={styles.Rectangle}/>
+        <div className={styles.TimerCircle}/>
         <div className={styles.Instructions}>
           <h1> First, some rules! </h1>
           <h4> * Click on as many gobies as you can before the time runs out </h4>
@@ -27,7 +29,8 @@ function Demo() {
             Give Up
           </button>
         </Link>
-    </div>
+      </div>
+    </Border>
   );
 }
 

@@ -5,6 +5,7 @@ import {Goby} from '../../components/Goby/Goby';
 import {Link} from "react-router-dom";
 import axios from 'axios';
 import {useUser} from "../../context/userContext";
+import Border from "../../components/Border/Border";
 
 
 const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemainingPercent}) => {
@@ -29,43 +30,44 @@ const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemainingPerc
         fishTwoTime: fishTwo,
       };
 
-      axios.post('/api/result', data, headers)
+      axios.post('/api/results', data, headers)
         .then(() => dispatch({type: 'ROUND_INCREMENT'}));
     }
   }, [fishOne, fishTwo]);
 
   return (
-    <div className={styles.Game}>
-      <img src={background} className={styles.backgroundGravel}/>
+    <Border>
+      <div className={styles.Game}>
 
-      <Goby
-        initialPosition={{x: 0, y: 100}}
-        nextPositionFn={({x, y}) => ({x: x + 80, y: y})}
-        count={secondsElapsed}
-        moveInterval={1}
-        onClick={() => setFishOne(getTime())}
-        isFound={fishOne !== null}
-      />
+        <Goby
+          initialPosition={{x: 0, y: 100}}
+          nextPositionFn={({x, y}) => ({x: x + 80, y: y})}
+          count={secondsElapsed}
+          moveInterval={1}
+          onClick={() => setFishOne(getTime())}
+          isFound={fishOne !== null}
+        />
 
-      <Goby
-        initialPosition={{x: 100, y: 0}}
-        nextPositionFn={({x, y}) => ({x: x, y: y + 80})}
-        count={secondsElapsed}
-        moveInterval={1}
-        onClick={() => setFishTwo(getTime())}
-        isFound={fishTwo !== null}
-      />
+        <Goby
+          initialPosition={{x: 100, y: 0}}
+          nextPositionFn={({x, y}) => ({x: x, y: y + 80})}
+          count={secondsElapsed}
+          moveInterval={1}
+          onClick={() => setFishTwo(getTime())}
+          isFound={fishTwo !== null}
+        />
 
-      <div className={styles.timer} style={{width: timeRemainingPercent}}/>
+        <div className={styles.Timer} style={{width: timeRemainingPercent}}/>
 
-      {isFinished() &&
-      <Link to='/result'>
-        <button className={styles.CustomButton}>
-          Result
-        </button>
-      </Link>
-      }
-    </div>
+        {isFinished() &&
+        <Link to='/results'>
+          <button className={styles.CustomButton}>
+            Result
+          </button>
+        </Link>
+        }
+      </div>
+    </Border>
   );
 };
 
