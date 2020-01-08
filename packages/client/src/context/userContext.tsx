@@ -1,12 +1,28 @@
-import React, {useEffect} from 'react'
+import React, {Dispatch, FunctionComponent, Reducer, ReducerAction, useEffect} from 'react'
 import uuidv4 from 'uuid/v4';
 
-const UserStateContext = React.createContext(null);
-const UserDispatchContext = React.createContext(null);
 
-const userReducer = (state, action) => {
+interface User {
+  uuid: string;
+  round: number;
+}
+
+export enum UserActionType {
+  ROUND_INCREMENT = 'ROUND_INCREMENT'
+}
+
+interface Action {
+  type: UserActionType;
+}
+
+type UserReducer = Reducer<User, Action>;
+
+const UserStateContext = React.createContext<User | null>(null);
+const UserDispatchContext = React.createContext<Dispatch<ReducerAction<UserReducer>> | null>(null);
+
+const userReducer: UserReducer = (state, action) => {
   switch (action.type) {
-    case 'ROUND_INCREMENT': {
+    case UserActionType.ROUND_INCREMENT: {
       return {...state, round: state.round + 1}
     }
     default: {
@@ -15,7 +31,7 @@ const userReducer = (state, action) => {
   }
 };
 
-const UserProvider = ({children}) => {
+export const UserProvider: FunctionComponent = ({children}) => {
   const [user, dispatch] = React.useReducer(userReducer, {
     uuid: localStorage.getItem('uuid') || uuidv4(),
     round: Number(localStorage.getItem('round')) || 1,
@@ -24,7 +40,7 @@ const UserProvider = ({children}) => {
   useEffect(() => {
     localStorage.setItem('uuid', user.uuid);
     localStorage.setItem('round', user.round.toString());
-  }, [user.round]);
+  }, [user.uuid, user.round]);
 
   return (
     <UserStateContext.Provider value={user}>
@@ -35,11 +51,9 @@ const UserProvider = ({children}) => {
   )
 };
 
-const useUser = () => {
+export const useUser = (): [User, Dispatch<ReducerAction<UserReducer>>] => {
   const user = React.useContext(UserStateContext);
   const dispatch = React.useContext(UserDispatchContext);
 
-  return [user, dispatch]
+  return [user!, dispatch!]
 };
-
-export {UserProvider, useUser}

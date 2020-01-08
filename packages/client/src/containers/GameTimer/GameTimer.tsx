@@ -1,14 +1,14 @@
 import React from 'react';
 import Timer from 'react-compound-timer';
-import Game from "../Game";
+import {Game} from "../Game/Game";
 
-const GameTimer = () => {
+export const GameTimer = () => {
   return (
     <Timer
       timeToUpdate={16}
       startImmediately={false}
     >
-      {({start, stop, getTime, setCheckpoints}) => {
+      {({start, stop, getTime, setCheckpoints}: any) => {
         setCheckpoints([{
           time: 10000,
           callback: stop,
@@ -31,5 +31,3 @@ const GameTimer = () => {
     </Timer>
   )
 };
-
-export default GameTimer;

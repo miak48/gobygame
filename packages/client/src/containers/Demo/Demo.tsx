@@ -1,16 +1,16 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import styles from './Demo.module.scss';
-import goby_fig from './assets/realgoby.png';
-import goby_fig2 from './assets/realgoby2.png';
-import Border from "../../components/Border/Border";
+import gobyFigure from '../../assets/realgoby.png';
+import gobyFigure2 from '../../assets/realgoby2.png';
+import {Border} from "../../components/Border/Border";
 
-function Demo() {
+export const Demo = () => {
   return (
     <Border>
       <div className={styles.Background}>
-        <img src={goby_fig} alt=" " className={styles.gobyimage}/>
-        <img src={goby_fig2} alt=" " className={styles.gobyimage2}/>
+        <img src={gobyFigure} alt="" className={styles.GobyImage}/>
+        <img src={gobyFigure2} alt="" className={styles.GobyImage2}/>
         <div className={styles.Rectangle}/>
         <div className={styles.TimerCircle}/>
         <div className={styles.Instructions}>
@@ -25,13 +25,11 @@ function Demo() {
           </button>
         </Link>
         <Link to="/Game">
-          <button className={styles.GiveupButton}>
+          <button className={styles.GiveUpButton}>
             Give Up
           </button>
         </Link>
       </div>
     </Border>
   );
-}
-
-export default Demo;
+};

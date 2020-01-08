@@ -1,12 +1,12 @@
 import React from 'react';
 import {BrowserRouter, Route} from "react-router-dom";
-import Landing from "./containers/Landing";
-import Demo from "./containers/Demo";
-import Result from "./containers/Results";
+import {Landing} from "./containers/Landing/Landing";
+import {Demo} from "./containers/Demo/Demo";
+import {Result} from "./containers/Results/Result";
 import {UserProvider} from "./context/userContext";
-import GameTimer from "./containers/GameTimer";
+import {GameTimer} from "./containers/GameTimer/GameTimer";
 
-const App = () => {
+export const App = () => {
   return (
     <UserProvider>
       <BrowserRouter>
@@ -18,5 +18,3 @@ const App = () => {
     </UserProvider>
   )
 };
-
-export default App;

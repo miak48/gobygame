@@ -3,11 +3,18 @@ import axios from 'axios';
 import {useUser} from "../../context/userContext";
 import styles from './Results.module.scss';
 import cx from 'classnames';
-import Border from "../../components/Border/Border";
+import {Border} from "../../components/Border/Border";
 
 
-const Result = () => {
-  const [results, setResults] = useState(null);
+interface Result {
+  uuid: string;
+  round: number;
+  fishOneTime: number;
+  fishTwoTime: number;
+}
+
+export const Result = () => {
+  const [results, setResults] = useState<Result[] | null>(null);
   const [user] = useUser();
 
   useEffect(() => {
@@ -60,5 +67,3 @@ const Result = () => {
     </Border>
   )
 };
-
-export default Result;

@@ -1,17 +1,24 @@
 import React, {useEffect, useState} from 'react';
-import background from '../../assets/images/gravel2_iphone.jpg';
 import styles from './Game.module.scss';
 import {Goby} from '../../components/Goby/Goby';
 import {Link} from "react-router-dom";
 import axios from 'axios';
-import {useUser} from "../../context/userContext";
-import Border from "../../components/Border/Border";
+import {UserActionType, useUser} from "../../context/userContext";
+import {Border} from "../../components/Border/Border";
 
 
-const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemainingPercent}) => {
+interface GameProps {
+  startTimer(): void;
+  stopTimer(): void;
+  getTime(): string;
+  secondsElapsed: number;
+  timeRemainingPercent: string;
+}
+
+export const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemainingPercent}: GameProps) => {
   const [user, dispatch] = useUser();
-  const [fishOne, setFishOne] = useState(null);
-  const [fishTwo, setFishTwo] = useState(null);
+  const [fishOne, setFishOne] = useState<string | null>(null);
+  const [fishTwo, setFishTwo] = useState<string | null>(null);
   useState(() => {
     startTimer();
   });
@@ -31,9 +38,9 @@ const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemainingPerc
       };
 
       axios.post('/api/results', data, headers)
-        .then(() => dispatch({type: 'ROUND_INCREMENT'}));
+        .then(() => dispatch({type: UserActionType.ROUND_INCREMENT}));
     }
-  }, [fishOne, fishTwo]);
+  }, [fishOne, fishTwo]); // eslint-disable-line
 
   return (
     <Border>
@@ -70,5 +77,3 @@ const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemainingPerc
     </Border>
   );
 };
-
-export default Game;
