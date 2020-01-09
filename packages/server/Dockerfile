@@ -16,5 +16,6 @@ COPY --chown=node:node . /node
 WORKDIR /node
 
 RUN yarn install
+RUN yarn build
 
-ENTRYPOINT [ "/tini", "-v", "--", "node", "/node/src/index.js" ]
+ENTRYPOINT [ "/tini", "-v", "--", "node", "/node/dist/index.js" ]

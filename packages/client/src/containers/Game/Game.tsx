@@ -37,7 +37,7 @@ export const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemain
         fishTwoTime: fishTwo,
       };
 
-      axios.post('/api/results', data, headers)
+      axios.post('/api/result', data, headers)
         .then(() => dispatch({type: UserActionType.ROUND_INCREMENT}));
     }
   }, [fishOne, fishTwo]); // eslint-disable-line
