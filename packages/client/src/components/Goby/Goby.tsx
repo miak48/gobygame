@@ -5,7 +5,7 @@ import {useDidUpdateEffect} from "../../utilities/useDidUpdateEffect";
 import {computeBearing, Coordinate} from "../../utilities/geometry";
 
 
-interface GobyProps {
+export interface GobyProps {
   nextPositionFn(a: Coordinate): Coordinate;
   onClick(): void;
   initialPosition: Coordinate; 
