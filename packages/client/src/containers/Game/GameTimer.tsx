@@ -1,6 +1,6 @@
 import React from 'react';
 import Timer from 'react-compound-timer';
-import {Game} from "../Game/Game";
+import {Game} from "./Game";
 
 export const GameTimer = () => {
   return (

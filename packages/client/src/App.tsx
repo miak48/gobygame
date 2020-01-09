@@ -4,17 +4,23 @@ import {Landing} from "./containers/Landing/Landing";
 import {Demo} from "./containers/Demo/Demo";
 import {Result} from "./containers/Results/Result";
 import {UserProvider} from "./context/userContext";
-import {GameTimer} from "./containers/GameTimer/GameTimer";
+import {GameTimer} from "./containers/Game/GameTimer";
+import {Error} from "./containers/Error/Error";
+import {useWindowSize} from "./utilities/useWindowSize";
 
 export const App = () => {
-  return (
-    <UserProvider>
-      <BrowserRouter>
-        <Route exact path="/" component={Landing}/>
-        <Route exact path="/demo" component={Demo}/>
-        <Route exact path="/game" component={GameTimer}/>
-        <Route exact path="/results" component={Result}/>
-      </BrowserRouter>
-    </UserProvider>
-  )
+  const windowSize = useWindowSize();
+
+  return windowSize.height < 810 || windowSize.width < 1010
+    ? <Error windowSize={windowSize}/>
+    : (
+      <UserProvider>
+        <BrowserRouter>
+          <Route exact path="/" component={Landing}/>
+          <Route exact path="/demo" component={Demo}/>
+          <Route exact path="/game" component={GameTimer}/>
+          <Route exact path="/results" component={Result}/>
+        </BrowserRouter>
+      </UserProvider>
+    )
 };
