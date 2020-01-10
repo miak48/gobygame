@@ -1,14 +1,15 @@
 import React from 'react';
-import Timer from 'react-compound-timer';
+import Timer, {TimerControls} from 'react-compound-timer';
 import {Game} from "./Game";
 
 export const GameTimer = () => {
+
   return (
     <Timer
       timeToUpdate={16}
       startImmediately={false}
     >
-      {({start, stop, getTime, setCheckpoints}: any) => {
+      {({start, stop, getTime, setCheckpoints, getTimerState}: TimerControls) => {
         setCheckpoints([{
           time: 10000,
           callback: stop,
@@ -23,6 +24,7 @@ export const GameTimer = () => {
                 getTime={getTime}
                 secondsElapsed={timerContext.s}
                 timeRemainingPercent={`${100 - (getTime() / 100)}%`}
+                timerState={getTimerState()}
               />
             )}
           </Timer.Consumer>

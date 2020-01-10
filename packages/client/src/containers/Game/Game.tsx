@@ -1,30 +1,31 @@
 import React, {useEffect, useState} from 'react';
 import styles from './Game.module.scss';
-import {Goby} from '../../components/Goby/Goby';
+import {Goby, GobyStatus} from '../../components/Goby/Goby';
 import {Link} from "react-router-dom";
 import axios from 'axios';
 import {UserActionType, useUser} from "../../context/userContext";
 import {Border} from "../../components/Border/Border";
-import {GobyPlotter} from "../../components/Goby/GobyPlotter";
+import {TimerStateValues} from "react-compound-timer";
 
 
 interface GameProps {
   startTimer(): void;
   stopTimer(): void;
-  getTime(): string;
+  getTime(): number;
   secondsElapsed: number;
   timeRemainingPercent: string;
+  timerState: TimerStateValues;
 }
 
-export const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemainingPercent}: GameProps) => {
+export const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemainingPercent, timerState}: GameProps) => {
   const [user, dispatch] = useUser();
-  const [fishOne, setFishOne] = useState<string | null>(null);
-  const [fishTwo, setFishTwo] = useState<string | null>(null);
+  const [fishOne, setFishOne] = useState<number | null>(null);
+  const [fishTwo, setFishTwo] = useState<number | null>(null);
   useState(() => {
     startTimer();
   });
 
-  const isFinished = () => fishOne !== null && fishTwo !== null;
+  const isFinished = () => (fishOne !== null && fishTwo !== null) || timerState === 'STOPPED';
 
   useEffect(() => {
     if (isFinished()) {
@@ -41,7 +42,16 @@ export const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemain
       axios.post('/api/result', data, headers)
         .then(() => dispatch({type: UserActionType.ROUND_INCREMENT}));
     }
-  }, [fishOne, fishTwo]); // eslint-disable-line
+  }, [fishOne, fishTwo, isFinished()]); // eslint-disable-line
+
+  const getFishStatus = (fishTime: number | null) => {
+    if (fishTime !== null) {
+      return GobyStatus.DISCOVERED;
+    } else if (timerState === 'STOPPED') {
+      return GobyStatus.UNDISCOVERED;
+    }
+    return GobyStatus.SWIMMING
+  };
 
   return (
     <Border>
@@ -53,16 +63,16 @@ export const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemain
           count={secondsElapsed}
           moveInterval={1}
           onClick={() => setFishOne(getTime())}
-          isFound={fishOne !== null}
+          status={getFishStatus(fishOne)}
         />
 
         <Goby
-          initialPosition={{x: 900, y: 700}}
+          initialPosition={{x: 900, y: 600}}
           nextPositionFn={({x, y}) => ({x: x - 150, y: y - 50})}
           count={secondsElapsed}
           moveInterval={2}
           onClick={() => setFishTwo(getTime())}
-          isFound={fishTwo !== null}
+          status={getFishStatus(fishTwo)}
         />
 
         <div className={styles.Timer} style={{width: timeRemainingPercent}}/>

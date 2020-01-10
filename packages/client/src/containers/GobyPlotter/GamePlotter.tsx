@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './GamePlotter.module.scss';
 import {Border} from "../../components/Border/Border";
 import {GobyPlotter} from "../../components/Goby/GobyPlotter";
+import {GobyStatus} from "../../components/Goby/Goby";
 
 
 export const GamePlotter = () => {
@@ -19,7 +20,7 @@ export const GamePlotter = () => {
             count={n}
             moveInterval={1}
             onClick={() => console.log('click')}
-            isFound={true}
+            status={GobyStatus.SWIMMING}
           />
         ))}
 
@@ -31,7 +32,7 @@ export const GamePlotter = () => {
             count={n}
             moveInterval={2}
             onClick={() => console.log('click')}
-            isFound={true}
+            status={GobyStatus.SWIMMING}
           />
         ))}
 

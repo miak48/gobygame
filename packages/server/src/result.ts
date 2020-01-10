@@ -3,16 +3,16 @@ import {Document, model, Schema} from "mongoose";
 export interface ResultDocument extends Document {
   uuid: string;
   round: number;
-  fishOneTime: number;
-  fishTwoTime: number;
+  fishOneTime: number | null;
+  fishTwoTime: number | null;
 }
 
 const resultSchema = new Schema(
   {
     uuid: {type: String, required: true},
     round: {type: Number, required: true},
-    fishOneTime: {type: Number, required: true},
-    fishTwoTime: {type: Number, required: true},
+    fishOneTime: Number,
+    fishTwoTime: Number,
   },
   {timestamps: true},
 );

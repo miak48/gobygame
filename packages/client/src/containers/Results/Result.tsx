@@ -9,8 +9,8 @@ import {Border} from "../../components/Border/Border";
 interface Result {
   uuid: string;
   round: number;
-  fishOneTime: number;
-  fishTwoTime: number;
+  fishOneTime: number | null;
+  fishTwoTime: number | null;
 }
 
 export const Result = () => {
@@ -50,10 +50,10 @@ export const Result = () => {
                     {result.round}
                   </div>
                   <div className={cx(styles.Cell, styles.Number, {[styles.UserCell]: isUserResult})}>
-                    {result.fishOneTime.toFixed(2)}
+                    {result.fishOneTime?.toFixed(2) ?? 'Not Caught'}
                   </div>
                   <div className={cx(styles.Cell, styles.Number, {[styles.UserCell]: isUserResult})}>
-                    {result.fishTwoTime.toFixed(2)}
+                    {result.fishTwoTime?.toFixed(2) ?? 'Not Caught'}
                   </div>
                 </React.Fragment>
               )

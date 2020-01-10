@@ -13,7 +13,7 @@ interface BearingCoordinate {
   image: number | null
 }
 
-export const GobyPlotter = ({initialPosition, nextPositionFn, count, moveInterval, onClick, isFound}: GobyProps) => {
+export const GobyPlotter = ({initialPosition, nextPositionFn, count, moveInterval, onClick}: GobyProps) => {
   const nextPosition = nextPositionFn(initialPosition);
   const initialBearing = computeBearing(initialPosition, nextPosition);
   const initialBearingCoordinate: BearingCoordinate = {...initialPosition, b: initialBearing, image: 2};
@@ -38,9 +38,7 @@ export const GobyPlotter = ({initialPosition, nextPositionFn, count, moveInterva
         top: y,
         left: x,
         transform: `rotate(${b}deg)`,
-        filter: !isFound
-          ? 'none'
-          : 'sepia(100%) saturate(300%) brightness(70%) hue-rotate(90deg)',
+        filter: 'sepia(100%) saturate(300%) brightness(70%) hue-rotate(90deg)',
       }}
       alt={''}
     />

@@ -6,16 +6,33 @@ import {useDidUpdateEffect} from "../../utilities/useDidUpdateEffect";
 import {computeBearing, Coordinate} from "../../utilities/geometry";
 
 
+export enum GobyStatus {
+  SWIMMING, DISCOVERED, UNDISCOVERED
+}
+
 export interface GobyProps {
   nextPositionFn(a: Coordinate): Coordinate;
   onClick(): void;
   initialPosition: Coordinate; 
   moveInterval: number; 
   count: number;
-  isFound: boolean;
+  status: GobyStatus;
 }
 
-export const Goby = ({initialPosition, nextPositionFn, count, moveInterval, onClick, isFound}: GobyProps) => {
+
+const getFilterFromStatus = (status: GobyStatus): string => {
+  switch (status) {
+    case GobyStatus.DISCOVERED:
+      return 'sepia(100%) saturate(300%) brightness(70%) hue-rotate(90deg)';
+    case GobyStatus.UNDISCOVERED:
+      return 'sepia(100%) saturate(300%) brightness(80%) hue-rotate(300deg)';
+    case GobyStatus.SWIMMING:
+    default:
+      return 'none';
+  }
+};
+
+export const Goby = ({initialPosition, nextPositionFn, count, moveInterval, onClick, status}: GobyProps) => {
   const [{x, y, b, image}, setCoords] = useState(() => {
     const nextPosition = nextPositionFn(initialPosition);
     const initialBearing = computeBearing(initialPosition, nextPosition);
@@ -24,7 +41,7 @@ export const Goby = ({initialPosition, nextPositionFn, count, moveInterval, onCl
   });
 
   useDidUpdateEffect(() => {
-    if (count % moveInterval === 0 && !isFound) {
+    if (count % moveInterval === 0 && status === GobyStatus.SWIMMING) {
       const nextPosition = nextPositionFn({x, y});
       const nextBearing = computeBearing({x, y}, nextPosition);
 
@@ -41,9 +58,7 @@ export const Goby = ({initialPosition, nextPositionFn, count, moveInterval, onCl
         top: y,
         left: x,
         transform: `rotate(${b}deg)`,
-        filter: !isFound
-          ? 'none'
-          : 'sepia(100%) saturate(300%) brightness(70%) hue-rotate(90deg)',
+        filter: getFilterFromStatus(status),
       }}
       alt={''}
     />
