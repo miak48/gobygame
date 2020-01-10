@@ -27,7 +27,7 @@ export const GamePlotter = () => {
           <GobyPlotter
             key={n}
             initialPosition={{x: 900, y: 700}}
-            nextPositionFn={({x, y}) => ({x: x - 150, y: y - 50})}
+            nextPositionFn={({x, y}) => ({x: x - 100, y: y - 10})}
             count={n}
             moveInterval={2}
             onClick={() => console.log('click')}

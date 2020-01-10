@@ -12,7 +12,7 @@ import {GamePlotter} from "./containers/GobyPlotter/GamePlotter";
 export const App = () => {
   const windowSize = useWindowSize();
 
-  return windowSize.height < 810 || windowSize.width < 1010
+  return windowSize.height < 710 || windowSize.width < 1010
     ? <Error windowSize={windowSize}/>
     : (
       <UserProvider>

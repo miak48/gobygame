@@ -1,11 +1,13 @@
+@import "../../variables";
+
 .Border {
-  height: 800px;
-  min-height: 800px;
-  max-height: 800px;
+  height: 700px;
+  min-height: 700px;
+  max-height: 700px;
   width: 1000px;
   min-width: 1000px;
   max-width: 1000px;
-  background-color: white;
+  background-color: $border-color;
   padding: 5px;
   border-radius: 5px;
 }
