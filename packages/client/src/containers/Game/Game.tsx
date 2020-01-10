@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import axios from 'axios';
 import {UserActionType, useUser} from "../../context/userContext";
 import {Border} from "../../components/Border/Border";
+import {GobyPlotter} from "../../components/Goby/GobyPlotter";
 
 
 interface GameProps {
@@ -48,7 +49,7 @@ export const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemain
 
         <Goby
           initialPosition={{x: 0, y: 100}}
-          nextPositionFn={({x, y}) => ({x: x + 80, y: y})}
+          nextPositionFn={({x, y}) => ({x: x + 100, y: y + 10})}
           count={secondsElapsed}
           moveInterval={1}
           onClick={() => setFishOne(getTime())}
@@ -56,10 +57,10 @@ export const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemain
         />
 
         <Goby
-          initialPosition={{x: 100, y: 0}}
-          nextPositionFn={({x, y}) => ({x: x, y: y + 80})}
+          initialPosition={{x: 900, y: 700}}
+          nextPositionFn={({x, y}) => ({x: x - 150, y: y - 50})}
           count={secondsElapsed}
-          moveInterval={1}
+          moveInterval={2}
           onClick={() => setFishTwo(getTime())}
           isFound={fishTwo !== null}
         />

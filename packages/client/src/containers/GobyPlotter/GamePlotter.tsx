@@ -23,6 +23,18 @@ export const GamePlotter = () => {
           />
         ))}
 
+        {tenSeconds.map(n => (
+          <GobyPlotter
+            key={n}
+            initialPosition={{x: 900, y: 700}}
+            nextPositionFn={({x, y}) => ({x: x - 150, y: y - 50})}
+            count={n}
+            moveInterval={2}
+            onClick={() => console.log('click')}
+            isFound={true}
+          />
+        ))}
+
       </div>
     </Border>
   );

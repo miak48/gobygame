@@ -1,6 +1,7 @@
 import styles from './Goby.module.scss';
 import React from 'react';
-import gobyFigure from "../../assets/realgoby.png";
+import gobyFigure from "../../assets/realgoby_r.png";
+import gobyFigure2 from "../../assets/realgoby_f.png";
 import {computeBearing} from "../../utilities/geometry";
 import {GobyProps} from "./Goby";
 
@@ -9,29 +10,29 @@ interface BearingCoordinate {
   x: number;
   y: number;
   b: number;
+  image: number | null
 }
 
 export const GobyPlotter = ({initialPosition, nextPositionFn, count, moveInterval, onClick, isFound}: GobyProps) => {
   const nextPosition = nextPositionFn(initialPosition);
-  // minus 60 for the angle of the fish in the image
-  const initialBearing = computeBearing(initialPosition, nextPosition) - 60;
-  const initialBearingCoordinate = {...initialPosition, b: initialBearing};
+  const initialBearing = computeBearing(initialPosition, nextPosition);
+  const initialBearingCoordinate: BearingCoordinate = {...initialPosition, b: initialBearing, image: 2};
 
-  const reducer = (coord: BearingCoordinate, count: number) => {
+  const reducer = (coordinate: BearingCoordinate, count: number): BearingCoordinate => {
     if (count % moveInterval === 0) {
-      const nextPosition = nextPositionFn(coord);
-      const nextBearing = computeBearing(coord, nextPosition) - 60;
+      const nextPosition = nextPositionFn(coordinate);
+      const nextBearing = computeBearing(coordinate, nextPosition);
 
-      return {...nextPosition, b: nextBearing};
+      return {...nextPosition, b: nextBearing, image: coordinate.image ? coordinate.image + 1 : 2};
     }
-    return coord;
+    return {...coordinate, image: null};
   };
-  const {x, y, b} = [...Array(count).keys()].reduce(reducer, initialBearingCoordinate);
+  const {x, y, b, image} = [...Array(count).keys()].reduce(reducer, initialBearingCoordinate);
 
-  return (
+  return image !== null ? (
     <img
-      src={gobyFigure}
-      className={styles.square}
+      src={image % 2 === 0 ? gobyFigure : gobyFigure2}
+      className={styles.Goby}
       onClick={onClick}
       style={{
         top: y,
@@ -43,5 +44,5 @@ export const GobyPlotter = ({initialPosition, nextPositionFn, count, moveInterva
       }}
       alt={''}
     />
-  );
+  ) : null;
 };

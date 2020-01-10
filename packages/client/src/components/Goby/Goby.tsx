@@ -1,6 +1,7 @@
 import styles from './Goby.module.scss';
 import React, {useState} from 'react';
-import gobyFigure from "../../assets/realgoby.png";
+import gobyFigure from "../../assets/realgoby_r.png";
+import gobyFigure2 from "../../assets/realgoby_f.png";
 import {useDidUpdateEffect} from "../../utilities/useDidUpdateEffect";
 import {computeBearing, Coordinate} from "../../utilities/geometry";
 
@@ -15,27 +16,26 @@ export interface GobyProps {
 }
 
 export const Goby = ({initialPosition, nextPositionFn, count, moveInterval, onClick, isFound}: GobyProps) => {
-  const [{x, y, b}, setCoords] = useState(() => {
+  const [{x, y, b, image}, setCoords] = useState(() => {
     const nextPosition = nextPositionFn(initialPosition);
-    // minus 60 for the angle of the fish in the image
-    const initialBearing = computeBearing(initialPosition, nextPosition) - 60;
+    const initialBearing = computeBearing(initialPosition, nextPosition);
 
-    return {...initialPosition, b: initialBearing}
+    return {...initialPosition, b: initialBearing, image: 0}
   });
 
   useDidUpdateEffect(() => {
     if (count % moveInterval === 0 && !isFound) {
       const nextPosition = nextPositionFn({x, y});
-      const nextBearing = computeBearing({x, y}, nextPosition) - 60;
+      const nextBearing = computeBearing({x, y}, nextPosition);
 
-      setCoords({...nextPosition, b: nextBearing})
+      setCoords({...nextPosition, b: nextBearing, image: image + 1})
     }
   }, [count]);
 
   return (
     <img
-      src={gobyFigure}
-      className={styles.square}
+      src={image % 2 === 0 ? gobyFigure : gobyFigure2}
+      className={styles.Goby}
       onClick={onClick}
       style={{
         top: y,
