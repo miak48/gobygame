@@ -3,22 +3,19 @@ import React, {useState} from 'react';
 import gobyFigure from "../../assets/realgoby_r.png";
 import gobyFigure2 from "../../assets/realgoby_f.png";
 import {useDidUpdateEffect} from "../../utilities/useDidUpdateEffect";
-import {computeBearing, Coordinate} from "../../utilities/geometry";
+import {computeBearing} from "../../utilities/geometry";
+import {Fish} from "../../containers/Game/Game";
 
 
 export enum GobyStatus {
   SWIMMING, DISCOVERED, UNDISCOVERED
 }
 
-export interface GobyProps {
-  nextPositionFn(a: Coordinate): Coordinate;
+export interface GobyProps extends Omit<Fish, 'id'>{
   onClick(): void;
-  initialPosition: Coordinate; 
-  moveInterval: number; 
   count: number;
   status: GobyStatus;
 }
-
 
 const getFilterFromStatus = (status: GobyStatus): string => {
   switch (status) {

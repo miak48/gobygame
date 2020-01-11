@@ -6,7 +6,15 @@ import axios from 'axios';
 import {UserActionType, useUser} from "../../context/userContext";
 import {Border} from "../../components/Border/Border";
 import {TimerStateValues} from "react-compound-timer";
+import {Coordinate} from "../../utilities/geometry";
 
+
+export interface Fish {
+  id: string;
+  nextPositionFn(a: Coordinate): Coordinate;
+  initialPosition: Coordinate;
+  moveInterval: number;
+}
 
 interface GameProps {
   startTimer(): void;
@@ -15,17 +23,33 @@ interface GameProps {
   secondsElapsed: number;
   timeRemainingPercent: string;
   timerState: TimerStateValues;
+  fish: Fish[];
 }
 
-export const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemainingPercent, timerState}: GameProps) => {
+interface FishTimes {
+  [key: string]: number | null;
+}
+
+const getFishStatus = (fishTime: number | null, timerState: TimerStateValues) => {
+  if (fishTime !== null) {
+    return GobyStatus.DISCOVERED;
+  } else if (timerState === 'STOPPED') {
+    return GobyStatus.UNDISCOVERED;
+  }
+  return GobyStatus.SWIMMING
+};
+
+export const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemainingPercent, timerState, fish}: GameProps) => {
   const [user, dispatch] = useUser();
-  const [fishOne, setFishOne] = useState<number | null>(null);
-  const [fishTwo, setFishTwo] = useState<number | null>(null);
+  const [fishTimes, setFishTimes] = useState<FishTimes>(() => fish.reduce((acc, fish) => {
+    acc[fish.id] = null;
+    return acc;
+  }, {} as FishTimes));
   useState(() => {
     startTimer();
   });
 
-  const isFinished = () => (fishOne !== null && fishTwo !== null) || timerState === 'STOPPED';
+  const isFinished = () => !Object.values(fishTimes).includes(null) || timerState === 'STOPPED';
 
   useEffect(() => {
     if (isFinished()) {
@@ -35,45 +59,30 @@ export const Game = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemain
       const data = {
         uuid: user.uuid,
         round: user.round,
-        fishOneTime: fishOne,
-        fishTwoTime: fishTwo,
+        fishOneTime: Object.values(fishTimes)[0],
+        fishTwoTime: Object.values(fishTimes)[1],
       };
 
       axios.post('/api/result', data, headers)
         .then(() => dispatch({type: UserActionType.ROUND_INCREMENT}));
     }
-  }, [fishOne, fishTwo, isFinished()]); // eslint-disable-line
-
-  const getFishStatus = (fishTime: number | null) => {
-    if (fishTime !== null) {
-      return GobyStatus.DISCOVERED;
-    } else if (timerState === 'STOPPED') {
-      return GobyStatus.UNDISCOVERED;
-    }
-    return GobyStatus.SWIMMING
-  };
+  }, [isFinished()]); // eslint-disable-line
 
   return (
     <Border>
       <div className={styles.Game}>
 
-        <Goby
-          initialPosition={{x: 0, y: 100}}
-          nextPositionFn={({x, y}) => ({x: x + 100, y: y + 10})}
-          count={secondsElapsed}
-          moveInterval={1}
-          onClick={() => setFishOne(getTime())}
-          status={getFishStatus(fishOne)}
-        />
-
-        <Goby
-          initialPosition={{x: 900, y: 600}}
-          nextPositionFn={({x, y}) => ({x: x - 150, y: y - 50})}
-          count={secondsElapsed}
-          moveInterval={2}
-          onClick={() => setFishTwo(getTime())}
-          status={getFishStatus(fishTwo)}
-        />
+        {fish.map(fish => (
+          <Goby
+            key={fish.id}
+            initialPosition={fish.initialPosition}
+            nextPositionFn={fish.nextPositionFn}
+            moveInterval={fish.moveInterval}
+            count={secondsElapsed}
+            onClick={() => setFishTimes({...fishTimes, [fish.id]: getTime()})}
+            status={getFishStatus(fishTimes[fish.id], timerState)}
+          />
+        ))}
 
         <div className={styles.Timer} style={{width: timeRemainingPercent}}/>
 

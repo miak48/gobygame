@@ -1,4 +1,4 @@
-import React, {Dispatch, FunctionComponent, Reducer, ReducerAction, useEffect} from 'react'
+import React, {Dispatch, FunctionComponent, Reducer, ReducerAction, useEffect, useReducer} from 'react'
 import uuidv4 from 'uuid/v4';
 
 
@@ -32,7 +32,7 @@ const userReducer: UserReducer = (state, action) => {
 };
 
 export const UserProvider: FunctionComponent = ({children}) => {
-  const [user, dispatch] = React.useReducer(userReducer, {
+  const [user, dispatch] = useReducer(userReducer, {
     uuid: localStorage.getItem('uuid') || uuidv4(),
     round: Number(localStorage.getItem('round')) || 1,
   });
