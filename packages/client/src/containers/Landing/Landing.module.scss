@@ -1,13 +1,15 @@
+@import "../../variables";
+
 .Background{
   height: 100%;
   width: 100%;
   background-color: #060201;
   background-image: url(../../assets/goby_home.png);
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: cover;
   background-position: bottom;
   position: relative;
-  border-radius: 5px;
+  border-radius: $border-radius;
 }
 
 .Title {
@@ -18,7 +20,7 @@
   // Move this here
   position: absolute;
   left: 40px;
-  top: -10px;
+  top: -40px;
 
   display: flex;
   flex-direction: column;
@@ -62,7 +64,7 @@
   left: 190px;
 
   &:hover {
-    color:rgb(105, 226, 160);
+    color:rgba(66, 223, 35, 0.671);
     -webkit-text-stroke: 5px black;
     font-weight: 3;
     font-size: 7rem;

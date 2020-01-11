@@ -36,8 +36,8 @@ export const Result = () => {
 
           <div className={styles.Header}>User</div>
           <div className={cx(styles.Header, styles.Number)}>Round</div>
-          <div className={cx(styles.Header, styles.Number)}>Fish One (ms)</div>
-          <div className={cx(styles.Header, styles.Number)}>Fish Two (ms)</div>
+          <div className={cx(styles.Header, styles.Number)}>Fish One (s)</div>
+          <div className={cx(styles.Header, styles.Number)}>Fish Two (s)</div>
           {results
             ? results.map((result, index) => {
               const isUserResult = user.uuid === result.uuid;

@@ -1,7 +1,11 @@
+@import "../../variables";
+
 .Scrollable {
   height: 100%;
   width: 100%;
   overflow: scroll;
+  background-color: $primary-light;
+  border-radius: $border-radius;
 }
 
 .Grid {
@@ -10,19 +14,19 @@
   grid-template-columns: 3fr 1fr 2fr 2fr;
   grid-template-rows: auto;
   grid-gap: 10px;
-  color: #444;
-  background-color: wheat;
-  border-radius: 5px;
+  //color: $primary-light; //I don't think this does anything? because there's no text on the grid styling?
+  background-color: $primary-light;
+  border-radius: $border-radius;
   padding: 5px;
 }
 
 .Cell {
-  color: #fff;
-  border-radius: 5px;
+  color: $primary-dark;
+  border-radius: $border-radius;
   padding: 20px;
   font-size: 150%;
   overflow: hidden;
-  background-color: #444;
+  background-color: $primary-light;
   display: flex;
   align-items: center;
 }
@@ -33,11 +37,11 @@
 
 .Header {
   @extend .Cell;
-  background-color: black;
+  background-color: $secondary-light;
 }
 
 .UserCell {
-  background-color: lightgray;
+  background-color: $primary-light;
 }
 
 .NoResults {

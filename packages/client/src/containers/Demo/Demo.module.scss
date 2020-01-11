@@ -1,12 +1,15 @@
+@import "../../variables";
+
 .Background {
   height: 100%;
   width: 100%;
   background-color: black;
-  background-image: url(../../assets/gravel2.jpg);
+  background-image: url(../../assets/gravel2_iphone.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: bottom;
   position: relative;
+  border-radius: $border-radius;
 }
 
 .Instructions {
@@ -56,7 +59,7 @@
   font-family: 'Montserrat', sans-serif;
   font-weight: 3;
   font-size: 7rem;
-  color: rgb(27, 179, 95);
+  color: rgb(47, 177, 110);
   -webkit-text-stroke: 3px rgb(243, 211, 66);
 
   // Move this here
@@ -66,7 +69,7 @@
 
   &:hover {
     color: rgb(243, 211, 66);
-    -webkit-text-stroke: 3px rgb(27, 179, 95);
+    -webkit-text-stroke: 3px rgb(47, 177, 110);
     font-weight: 3;
     font-size: 7rem;
     animation: pulsebutton 1s infinite;

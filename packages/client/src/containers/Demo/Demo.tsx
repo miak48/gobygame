@@ -16,8 +16,8 @@ export const Demo = () => {
         <div className={styles.Instructions}>
           <h1> First, some rules! </h1>
           <h4> * Click on as many gobies as you can before the time runs out </h4>
+          <h4> * They might be moving around! </h4>
           <h4> * You can give up at any point by pressing the 'give up' button </h4>
-          <h4> * There may be a different number of gobies in each round! </h4>
         </div>
         <Link to="/Game">
           <button className={styles.DemoButton}>
