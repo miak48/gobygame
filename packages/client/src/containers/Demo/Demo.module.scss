@@ -1,5 +1,3 @@
-@import "../../variables";
-
 .Background {
   height: 100%;
   width: 100%;
@@ -13,14 +11,14 @@
 }
 
 .Instructions {
-  margin: 0px;
+  margin: 0;
   color: white;
   width: 800px;
 
   // Move this here
   position: absolute;
   left: 40px;
-  top: -10px;
+  top: 0;
 
   display: flex;
   flex-direction: column;
@@ -53,40 +51,14 @@
 }
 
 .DemoButton {
-  display: inline-block;
-  border: transparent;
-  background: transparent;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 3;
-  font-size: 7rem;
-  color: rgb(47, 177, 110);
+  color: rgb(27, 179, 95);
   -webkit-text-stroke: 3px rgb(243, 211, 66);
 
-  // Move this here
-  position: absolute;
-  bottom: 50px;
-  left: 20px;
+  position: static;
 
   &:hover {
     color: rgb(243, 211, 66);
-    -webkit-text-stroke: 3px rgb(47, 177, 110);
-    font-weight: 3;
-    font-size: 7rem;
-    animation: pulsebutton 1s infinite;
-    animation-timing-function: linear;
-  }
-
-  @keyframes pulsebutton {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.1);
-
-      100% {
-        transform: scale(1);
-      }
-    }
+    -webkit-text-stroke: 3px rgb(27, 179, 95);
   }
 }
 
@@ -144,35 +116,6 @@
   }
 }
 
-
-.GiveUpButton {
-  display: inline-block;
-  color: red;
-  background: transparent;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 2;
-  font-size: 2rem;
-  text-align: center;
-  text-decoration: none;
-  //margin: 4px 4px;
-  height: 150px;
-  width: 150px;
-  border-radius: 50%;
-  border: 2px solid red;
-
-  // Move this here
-  position: absolute;
-  bottom: 50px;
-  left: 1220px;
-
-  &:hover {
-    border: 2px solid white;
-    background: red;
-    color: white;
-    font-weight: 2;
-    font-size: 2rem;
-  }
-}
 
 // this is where I would like the timer to go
 // Ideally, it would look something like this: https://codepen.io/zebateira/pen/VvqJwm

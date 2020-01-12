@@ -1,9 +1,10 @@
 import React from 'react';
-import {Link} from "react-router-dom";
 import styles from './Demo.module.scss';
 import gobyFigure from '../../assets/realgoby.png';
 import gobyFigure2 from '../../assets/realgoby2.png';
 import {Border} from "../../components/Border/Border";
+import {LinkButton} from "../../components/LinkButton/LinkButton";
+import {GiveUpButton} from "../../components/GiveUpButton/GiveUpButton";
 
 export const Demo = () => {
   return (
@@ -18,17 +19,12 @@ export const Demo = () => {
           <h4> * Click on as many gobies as you can before the time runs out </h4>
           <h4> * They might be moving around! </h4>
           <h4> * You can give up at any point by pressing the 'give up' button </h4>
-        </div>
-        <Link to="/Game">
-          <button className={styles.DemoButton}>
+
+          <LinkButton to="/Game" className={styles.DemoButton}>
             Play
-          </button>
-        </Link>
-        <Link to="/Game">
-          <button className={styles.GiveUpButton}>
-            Give Up
-          </button>
-        </Link>
+          </LinkButton>
+        </div>
+        <GiveUpButton to="/Game"/>
       </div>
     </Border>
   );

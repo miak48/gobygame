@@ -1,0 +1,27 @@
+@import "../../variables";
+
+.GiveUpButton {
+  display: inline-block;
+  color: white;
+  background: red;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: bolder;
+  text-align: center;
+  text-decoration: none;
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  border: $border-width solid white;
+  z-index: 10;
+
+  // Move this here
+  position: absolute;
+  top: -40px;
+  left: 900px;
+
+  &:hover {
+    background: darkred;
+    color: white;
+  }
+}

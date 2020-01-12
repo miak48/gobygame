@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import styles from './Landing.module.scss';
 import {Border} from "../../components/Border/Border";
+import {LinkButton} from "../../components/LinkButton/LinkButton";
 
 export const Landing = () => {
   const link = 'https://sydney.edu.au/science/our-research/research-areas/life-and-environmental-sciences/animal-behaviour-lab.html';
@@ -20,11 +21,9 @@ export const Landing = () => {
         </h4>
       </div>
 
-      <Link to="/demo">
-        <button className={styles.CustomButton}>
-          Play
-        </button>
-      </Link>
+      <LinkButton to="/demo">
+        Play
+      </LinkButton>
     </div>
     </Border>
   );

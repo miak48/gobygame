@@ -1,23 +1,4 @@
-.Game {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  background-image: url(../../assets/gravel2_iphone.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  overflow: hidden;
-}
-
-.Timer {
-  background-color: green;
-  height: 20px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-}
-
-.CustomButton {
+.Button {
   display: inline-block;
   border: transparent;
   background: transparent;
