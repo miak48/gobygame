@@ -27,8 +27,20 @@ export const GamePlotter = () => {
         {tenSeconds.map(n => (
           <GobyPlotter
             key={n}
-            initialPosition={{x: 900, y: 700}}
-            nextPositionFn={({x, y}) => ({x: x - 100, y: y - 10})}
+            initialPosition={{x: 900, y: 600}}
+            nextPositionFn={({x, y}) => ({x: x - 150, y: y - 50})}
+            count={n}
+            moveInterval={2}
+            onClick={() => console.log('click')}
+            status={GobyStatus.SWIMMING}
+          />
+        ))}
+
+        {tenSeconds.map(n => (
+          <GobyPlotter
+            key={n}
+            initialPosition={{x: 900, y: 500}}
+            nextPositionFn={({x, y}) => ({x: x - 150, y: y - 50})}
             count={n}
             moveInterval={2}
             onClick={() => console.log('click')}
