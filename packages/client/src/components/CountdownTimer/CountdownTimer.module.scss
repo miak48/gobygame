@@ -1,0 +1,39 @@
+@import "../../variables";
+
+.Countdown {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  border: $border-width solid white;
+  box-sizing: border-box;
+  overflow: hidden;
+  background-color: white;
+  z-index: 10;
+
+  position: absolute;
+  top: -40px;
+  left: 800px;
+
+  svg {
+    width: 75px;
+    height: 75px;
+    transform: rotateY(-180deg) rotateZ(-90deg);
+  }
+
+  circle {
+    stroke-dasharray: 220px;
+    stroke-dashoffset: 0;
+    stroke-width: 70px;
+    stroke: white;
+    animation: countdown 0s linear infinite forwards;
+  }
+
+  @keyframes countdown {
+    from {
+      stroke-dashoffset: 0;
+    }
+    to {
+      stroke-dashoffset: 220px  ;
+    }
+  }
+}

@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from "react-router-dom";
 import styles from './Landing.module.scss';
 import {Border} from "../../components/Border/Border";
 import {LinkButton} from "../../components/LinkButton/LinkButton";

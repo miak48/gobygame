@@ -5,10 +5,13 @@ import gobyFigure2 from '../../assets/realgoby2.png';
 import {Border} from "../../components/Border/Border";
 import {LinkButton} from "../../components/LinkButton/LinkButton";
 import {GiveUpButton} from "../../components/GiveUpButton/GiveUpButton";
+import {CountdownTimer} from "../../components/CountdownTimer/CountdownTimer";
 
 export const Demo = () => {
   return (
     <Border>
+      <GiveUpButton to="/Game"/>
+      <CountdownTimer auto total={10}/>
       <div className={styles.Background}>
         <img src={gobyFigure} alt="" className={styles.GobyImage}/>
         <img src={gobyFigure2} alt="" className={styles.GobyImage2}/>
@@ -24,7 +27,6 @@ export const Demo = () => {
             Play
           </LinkButton>
         </div>
-        <GiveUpButton to="/Game"/>
       </div>
     </Border>
   );

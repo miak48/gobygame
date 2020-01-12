@@ -1,6 +1,12 @@
 @import "../../variables";
 
 .GiveUpButton {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  border: $border-width solid white;
+  z-index: 10;
+
   display: inline-block;
   color: white;
   background: red;
@@ -9,11 +15,6 @@
   font-weight: bolder;
   text-align: center;
   text-decoration: none;
-  height: 80px;
-  width: 80px;
-  border-radius: 50%;
-  border: $border-width solid white;
-  z-index: 10;
 
   // Move this here
   position: absolute;
@@ -21,7 +22,14 @@
   left: 900px;
 
   &:hover {
-    background: darkred;
-    color: white;
+    animation: pulse 1s infinite;
+    animation-timing-function: linear;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1);
+      100% { transform: scale(1); }
+    }
   }
 }

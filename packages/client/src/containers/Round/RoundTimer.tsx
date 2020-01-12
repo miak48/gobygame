@@ -28,7 +28,6 @@ export const RoundTimer = ({fish}: RoundTimerProps) => {
                 stopTimer={stop}
                 getTime={getTime}
                 secondsElapsed={timerContext.s}
-                timeRemainingPercent={`${100 - (getTime() / 100)}%`}
                 timerState={getTimerState()}
                 fish={fish}
               />

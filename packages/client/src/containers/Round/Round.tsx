@@ -8,6 +8,7 @@ import {TimerStateValues} from "react-compound-timer";
 import {Coordinate} from "../../utilities/geometry";
 import {LinkButton} from "../../components/LinkButton/LinkButton";
 import {GiveUpButton} from "../../components/GiveUpButton/GiveUpButton";
+import {CountdownTimer} from "../../components/CountdownTimer/CountdownTimer";
 
 
 export interface Fish {
@@ -21,13 +22,9 @@ export interface Fish {
 
 interface RoundProps {
   startTimer(): void;
-
   stopTimer(): void;
-
   getTime(): number;
-
   secondsElapsed: number;
-  timeRemainingPercent: string;
   timerState: TimerStateValues;
   fish: Fish[];
 }
@@ -45,7 +42,7 @@ const getFishStatus = (fishTime: number | null, timerState: TimerStateValues) =>
   return GobyStatus.SWIMMING
 };
 
-export const Round = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemainingPercent, timerState, fish}: RoundProps) => {
+export const  Round = ({startTimer, stopTimer, getTime, secondsElapsed, timerState, fish}: RoundProps) => {
   const [user, dispatch] = useUser();
   const [fishTimes, setFishTimes] = useState<FishTimes>(() => fish.reduce((acc, fish) => {
     acc[fish.id] = null;
@@ -76,6 +73,7 @@ export const Round = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemai
 
   return (
     <Border>
+      <CountdownTimer total={10} seconds={getTime() / 1000}/>
       <GiveUpButton to={'/results'}/>
       <div className={styles.Game}>
 
@@ -90,9 +88,6 @@ export const Round = ({startTimer, stopTimer, getTime, secondsElapsed, timeRemai
             status={getFishStatus(fishTimes[fish.id], timerState)}
           />
         ))}
-
-        <div className={styles.Timer} style={{width: timeRemainingPercent}}/>
-
 
         {isFinished() &&
         <LinkButton to={'/results'}>
