@@ -4,7 +4,7 @@ import {Goby, GobyStatus} from '../../components/Goby/Goby';
 import axios from 'axios';
 import {UserActionType, useUser} from "../../hooks/userContext";
 import {Border} from "../../components/Border/Border";
-import {TimerStateValues} from "react-compound-timer";
+import {TimerStateValues, useTimer} from "react-compound-timer";
 import {Coordinate} from "../../utilities/geometry";
 import {LinkButton} from "../../components/LinkButton/LinkButton";
 import {GiveUpButton} from "../../components/GiveUpButton/GiveUpButton";
@@ -19,11 +19,6 @@ export interface Fish {
 }
 
 interface RoundProps {
-  startTimer(): void;
-  stopTimer(): void;
-  getTime(): number;
-  secondsElapsed: number;
-  timerState: TimerStateValues;
   fish: Fish[];
 }
 
@@ -40,18 +35,24 @@ const getFishStatus = (fishTime: number | undefined, timerState: TimerStateValue
   return GobyStatus.SWIMMING
 };
 
-export const  Round = ({startTimer, stopTimer, getTime, secondsElapsed, timerState, fish}: RoundProps) => {
+export const  Round = ({fish}: RoundProps) => {
+
+  const {controls, value} = useTimer({
+    timeToUpdate: 16,
+    startImmediately: false,
+  });
+
   const [user, dispatch] = useUser();
   const [fishTimes, setFishTimes] = useState<FishTimes>({});
   useState(() => {
-    startTimer();
+    controls.start();
   });
 
-  const isFinished = () => Object.values(fishTimes).length === fish.length || timerState === 'STOPPED';
+  const isFinished = () => Object.values(fishTimes).length === fish.length || value.state === 'STOPPED';
 
   useEffect(() => {
     if (isFinished()) {
-      stopTimer();
+      controls.stop();
 
       const headers = {headers: {'Content-Type': 'application/json'}};
       const data = {
@@ -68,7 +69,7 @@ export const  Round = ({startTimer, stopTimer, getTime, secondsElapsed, timerSta
 
   return (
     <Border>
-      <CountdownTimer total={10} seconds={getTime() / 1000}/>
+      <CountdownTimer total={10} seconds={controls.getTime() / 1000}/>
       <GiveUpButton to={'/results'}/>
       <div className={styles.Game}>
 
@@ -78,9 +79,9 @@ export const  Round = ({startTimer, stopTimer, getTime, secondsElapsed, timerSta
             initialPosition={fish.initialPosition}
             nextPositionFn={fish.nextPositionFn}
             moveInterval={fish.moveInterval}
-            count={secondsElapsed}
-            onClick={() => setFishTimes({...fishTimes, [fish.id]: getTime()})}
-            status={getFishStatus(fishTimes[fish.id], timerState)}
+            count={value.s}
+            onClick={() => setFishTimes({...fishTimes, [fish.id]: controls.getTime()})}
+            status={getFishStatus(fishTimes[fish.id], value.state)}
           />
         ))}
 
