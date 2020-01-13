@@ -1,0 +1,119 @@
+[
+  {
+    "round": 1,
+    "timeLimit": 10,
+    "gobies": [
+      {
+        "id": "Round1-Goby1",
+        "nextPositionFn": "return {x: x + 100, y: y + 10}",
+        "initialPosition": {
+          "x": 0,
+          "y": 100
+        },
+        "moveInterval": 1
+      },
+      {
+        "id": "Round1-Goby2",
+        "nextPositionFn": "return {x: x - 150, y: y - 50}",
+        "initialPosition": {
+          "x": 900,
+          "y": 600
+        },
+        "moveInterval": 2
+      },
+      {
+        "id": "Round1-Goby3",
+        "nextPositionFn": "return {x: x - 150, y: y - 50}",
+        "initialPosition": {
+          "x": 900,
+          "y": 500
+        },
+        "moveInterval": 2
+      }
+    ]
+  },
+  {
+    "round": 2,
+    "timeLimit": 10,
+    "gobies": [
+      {
+        "id": "Round2-Goby1",
+        "nextPositionFn": "return {x: x, y: y + 100}",
+        "initialPosition": {
+          "x": 300,
+          "y": 0
+        },
+        "moveInterval": 2
+      },
+      {
+        "id": "Round2-Goby2",
+        "nextPositionFn": "return {x: x, y: y + 100}",
+        "initialPosition": {
+          "x": 400,
+          "y": 0
+        },
+        "moveInterval": 2
+      },
+      {
+        "id": "Round2-Goby3",
+        "nextPositionFn": "return {x: x, y: y + 100}",
+        "initialPosition": {
+          "x": 500,
+          "y": 0
+        },
+        "moveInterval": 2
+      },
+      {
+        "id": "Round2-Goby4",
+        "nextPositionFn": "return {x: x, y: y + 100}",
+        "initialPosition": {
+          "x": 600,
+          "y": 0
+        },
+        "moveInterval": 2
+      },
+      {
+        "id": "Round2-Goby5",
+        "nextPositionFn": "return {x: x, y: y + 100}",
+        "initialPosition": {
+          "x": 700,
+          "y": 0
+        },
+        "moveInterval": 2
+      }
+    ]
+  },
+  {
+    "round": 3,
+    "timeLimit": 10,
+    "gobies": [
+      {
+        "id": "Round3-Goby1",
+        "nextPositionFn": "return {x: x, y: y + 100}",
+        "initialPosition": {
+          "x": 600,
+          "y": 0
+        },
+        "moveInterval": 2
+      },
+      {
+        "id": "Round3-Goby2",
+        "nextPositionFn": "return {x: x - 150, y: y - 50}",
+        "initialPosition": {
+          "x": 900,
+          "y": 500
+        },
+        "moveInterval": 2
+      },
+      {
+        "id": "Round3-Goby3",
+        "nextPositionFn": "return {x: x + 100, y: y + 10}",
+        "initialPosition": {
+          "x": 0,
+          "y": 100
+        },
+        "moveInterval": 1
+      }
+    ]
+  }
+]

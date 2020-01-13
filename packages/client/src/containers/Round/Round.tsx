@@ -13,9 +13,7 @@ import {CountdownTimer} from "../../components/CountdownTimer/CountdownTimer";
 
 export interface Fish {
   id: string;
-
   nextPositionFn(a: Coordinate): Coordinate;
-
   initialPosition: Coordinate;
   moveInterval: number;
 }

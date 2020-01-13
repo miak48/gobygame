@@ -1,13 +1,13 @@
 import {Document, model, Schema} from "mongoose";
 
-export interface ResultDocument extends Document {
+export interface RoundResultDocument extends Document {
   uuid: string;
   round: number;
   fishOneTime: number | null;
   fishTwoTime: number | null;
 }
 
-const resultSchema = new Schema(
+const RoundResultSchema = new Schema(
   {
     uuid: {type: String, required: true},
     round: {type: Number, required: true},
@@ -17,4 +17,4 @@ const resultSchema = new Schema(
   {timestamps: true},
 );
 
-export const resultModel = model<ResultDocument>("result", resultSchema);
+export const RoundResultModel = model<RoundResultDocument>("RoundResult", RoundResultSchema);

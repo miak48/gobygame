@@ -3,7 +3,7 @@ import Timer, {TimerControls} from 'react-compound-timer';
 import {Fish, Round} from "./Round";
 
 
-interface RoundTimerProps {
+export interface RoundTimerProps {
   fish: Fish[];
 }
 

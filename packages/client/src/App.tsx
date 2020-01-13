@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route} from "react-router-dom";
+import {BrowserRouter, Route, Redirect} from "react-router-dom";
 import {Landing} from "./containers/Landing/Landing";
 import {Demo} from "./containers/Demo/Demo";
 import {Result} from "./containers/Results/Result";
@@ -21,7 +21,9 @@ export const App = () => {
           <Route exact path="/demo" component={Demo}/>
           <Route exact path="/game" component={Game}/>
           <Route exact path="/results" component={Result}/>
-          <Route exact path="/plot" component={GamePlotter}/>
+          <Route exact path="/plots" component={() => <Redirect to={'/plot/1'}/>}/>
+          <Route exact path="/plot" component={() => <Redirect to={'/plot/1'}/>}/>
+          <Route exact path="/plot/:round" component={GamePlotter}/>
         </BrowserRouter>
       </UserProvider>
     )

@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import {db} from "./db";
 import {router} from "./routes";
+import {createRounds} from "./controllers/roundController";
 
 const app = express();
 const apiPort = process.env.PORT || 8000;
@@ -19,4 +20,8 @@ app.get("/", (req, res) => {
 
 app.use("/api", router);
 
-app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));
+app.listen(apiPort, () => {
+  createRounds();
+
+  console.log(`Server running on port ${apiPort}`);
+});
