@@ -6,6 +6,14 @@
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
+
+  transition: filter 2s ease-out;
+}
+
+.Overlay {
+  height: 100%;
+  width: 100%;
+  filter: brightness(.2);
 }
 
 .Timer {

@@ -12,8 +12,10 @@ interface GobyTimes {
 
 interface UseRoundTimer {
   gobies: GobyProps[];
-  isFinished: boolean;
   time: number;
+  startTimer(): void;
+  hasStarted: boolean;
+  isFinished: boolean;
 }
 
 const getFishStatus = (fishTime: number | undefined, timerState: TimerStateValues) => {
@@ -28,7 +30,12 @@ const getFishStatus = (fishTime: number | undefined, timerState: TimerStateValue
 export const useRoundTimer = (trajectories: GobyTrajectory[]): UseRoundTimer => {
   const [user, dispatch] = useUser();
   const [fishTimes, setFishTimes] = useState<GobyTimes>({});
-  const {controls, value} = useTimer({timeToUpdate: 16});
+  const {controls, value} = useTimer({timeToUpdate: 16, startImmediately: false});
+
+  controls.setCheckpoints([{
+    time: 10000,
+    callback: controls.stop
+  }]);
 
   const isFinished = () => Object.values(fishTimes).length === trajectories.length || value.state === 'STOPPED';
 
@@ -50,8 +57,6 @@ export const useRoundTimer = (trajectories: GobyTrajectory[]): UseRoundTimer => 
   }, [isFinished()]); // eslint-disable-line
 
   return {
-    isFinished: isFinished(),
-    time: controls.getTime(),
     gobies: trajectories.map(trajectory => ({
       key: trajectory.id,
       initialPosition: trajectory.initialPosition,
@@ -60,6 +65,10 @@ export const useRoundTimer = (trajectories: GobyTrajectory[]): UseRoundTimer => 
       count: value.s,
       onClick: () => setFishTimes({...fishTimes, [trajectory.id]: controls.getTime()}),
       status: getFishStatus(fishTimes[trajectory.id], value.state),
-    }))
+    })),
+    time: controls.getTime(),
+    startTimer: controls.start,
+    hasStarted: value.state !== 'INITED',
+    isFinished: isFinished(),
   }
 };

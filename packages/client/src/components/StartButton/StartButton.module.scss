@@ -1,29 +1,35 @@
 @import "../../variables";
 
-.GiveUpButton {
+
+.Button {
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+
   height: 80px;
   width: 80px;
   border-radius: 50%;
   border: $border-width solid $border-color;
-  z-index: 10;
-
-  display: inline-block;
-  color: white;
-  background: red;
+  color: $border-color;
+  background-color: green;
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-weight: bolder;
   text-align: center;
   text-decoration: none;
 
-  // Move this here
-  position: absolute;
-  top: -40px;
-  left: 900px;
-
-  &:hover {
+  &:hover:enabled {
     animation: pulse 1s infinite;
     animation-timing-function: linear;
+  }
+
+  &:disabled {
+    background-color: gray;
+    color: lightgray;
   }
 
   @keyframes pulse {

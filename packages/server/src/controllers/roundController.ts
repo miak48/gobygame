@@ -6,7 +6,7 @@ export const createRounds = () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   GameRoundModel.collection.insertMany(roundData as GameRound[], (error, result) => {
-    console.log("Inserted Game Round data", result.insertedCount);
+    console.log("Inserted Game Round data", result?.insertedCount);
   });
 };
 
