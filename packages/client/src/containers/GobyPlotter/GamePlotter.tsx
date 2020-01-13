@@ -8,18 +8,18 @@ import {useFetchRound} from "../../hooks/useFetchRound";
 
 
 export const GamePlotter = ({match}: RouteComponentProps<{round: string}>) => {
-  const {gobies, seconds} = useFetchRound(match.params.round);
+  const {trajectories, seconds} = useFetchRound(match.params.round);
 
-  return (
+  return (  
     <Border>
       <div className={styles.Plotter}>
-        {gobies.map(fish => (
+        {trajectories.map(trajectory => (
           seconds.map(n => (
             <GobyPlotter
-              key={fish.id + n}
-              initialPosition={fish.initialPosition}
-              nextPositionFn={fish.nextPositionFn}
-              moveInterval={fish.moveInterval}
+              key={trajectory.id + n}
+              initialPosition={trajectory.initialPosition}
+              nextPositionFn={trajectory.nextPositionFn}
+              moveInterval={trajectory.moveInterval}
               count={n}
               onClick={() => console.log('click')}
               status={GobyStatus.SWIMMING}

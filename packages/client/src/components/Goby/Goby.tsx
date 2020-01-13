@@ -4,14 +4,14 @@ import gobyFigure from "../../assets/realgoby_r.png";
 import gobyFigure2 from "../../assets/realgoby_f.png";
 import {useDidUpdateEffect} from "../../hooks/useDidUpdateEffect";
 import {computeBearing} from "../../utilities/geometry";
-import {Fish} from "../../containers/Round/Round";
+import {GobyTrajectory} from "../../hooks/useFetchRound";
 
 
 export enum GobyStatus {
   SWIMMING, DISCOVERED, UNDISCOVERED
 }
 
-export interface GobyProps extends Omit<Fish, 'id'>{
+export interface GobyProps extends Omit<GobyTrajectory, 'id'>{
   onClick(): void;
   count: number;
   status: GobyStatus;

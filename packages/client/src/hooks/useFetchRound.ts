@@ -1,17 +1,29 @@
-import {Fish} from "../containers/Round/Round";
 import {useState} from "react";
 import axios from "axios";
+import {Coordinate} from "../utilities/geometry";
 
 
-const transformNextPositionFn = (rawGoby: any): Fish => {
+export interface GobyTrajectory {
+  id: string;
+  nextPositionFn(a: Coordinate): Coordinate;
+  initialPosition: Coordinate;
+  moveInterval: number;
+}
+
+interface UseFetchRound {
+  trajectories: GobyTrajectory[];
+  seconds: number[];
+}
+
+const transformNextPositionFn = (rawGoby: any): GobyTrajectory => {
   // eslint-disable-next-line no-new-func
   rawGoby.nextPositionFn = new Function("{x, y}", rawGoby.nextPositionFn);
 
   return rawGoby;
 };
 
-export const useFetchRound = (id: string): {gobies: Fish[], seconds: number[]} => {
-  const [gobies, setGobies] = useState<Fish[]>([]);
+export const useFetchRound = (id: string): UseFetchRound => {
+  const [trajectories, setTrajectories] = useState<GobyTrajectory[]>([]);
   const [seconds, setSeconds] = useState<number[]>([]);
 
   useState(() => {
@@ -20,12 +32,12 @@ export const useFetchRound = (id: string): {gobies: Fish[], seconds: number[]} =
         .get(`/api/round/${id}`);
 
       const round = response.data.data;
-      setGobies(round.gobies.map(transformNextPositionFn));
+      setTrajectories(round.gobies.map(transformNextPositionFn));
       setSeconds([...Array(round.timeLimit).keys()]);
     }
 
     fetchRounds()
   });
 
-  return {gobies, seconds}
+  return {trajectories, seconds}
 };

@@ -5,11 +5,9 @@ import {Round} from "../Round/Round";
 
 export const Game = () => {
   const id = Math.floor(Math.random() * 3) + 1;
-  const {gobies} = useFetchRound(id.toString());
+  const {trajectories} = useFetchRound(id.toString());
 
-  return gobies.length > 0 ? (
-    <Round
-      fish={gobies}
-    />
-  ) : null
+  return trajectories.length > 0
+    ? (<Round gobyTrajectory={trajectories}/>)
+    : null
 };
