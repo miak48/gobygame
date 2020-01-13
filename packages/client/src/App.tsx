@@ -2,10 +2,10 @@ import React from 'react';
 import {BrowserRouter, Route, Redirect} from "react-router-dom";
 import {Landing} from "./containers/Landing/Landing";
 import {Demo} from "./containers/Demo/Demo";
-import {Result} from "./containers/Results/Result";
-import {UserProvider} from "./context/userContext";
+import {Result} from "./containers/Results/Results";
+import {UserProvider} from "./hooks/userContext";
 import {Error} from "./containers/Error/Error";
-import {useWindowSize} from "./utilities/useWindowSize";
+import {useWindowSize} from "./hooks/useWindowSize";
 import {GamePlotter} from "./containers/GobyPlotter/GamePlotter";
 import {Game} from "./containers/Game/Game";
 

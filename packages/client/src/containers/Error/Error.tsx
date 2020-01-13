@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Error.module.scss';
-import {WindowSize} from "../../utilities/useWindowSize";
+import {WindowSize} from "../../hooks/useWindowSize";
 
 
 interface ErrorProps {

@@ -2,7 +2,7 @@ import styles from './Goby.module.scss';
 import React, {useState} from 'react';
 import gobyFigure from "../../assets/realgoby_r.png";
 import gobyFigure2 from "../../assets/realgoby_f.png";
-import {useDidUpdateEffect} from "../../utilities/useDidUpdateEffect";
+import {useDidUpdateEffect} from "../../hooks/useDidUpdateEffect";
 import {computeBearing} from "../../utilities/geometry";
 import {Fish} from "../../containers/Round/Round";
 

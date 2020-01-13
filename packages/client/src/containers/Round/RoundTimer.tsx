@@ -22,7 +22,7 @@ export const RoundTimer = ({fish}: RoundTimerProps) => {
 
         return (
           <Timer.Consumer>
-            {timerContext => (
+            {timerContext => fish.length > 0 && (
               <Round
                 startTimer={start}
                 stopTimer={stop}

@@ -1,33 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import axios from 'axios';
-import {useUser} from "../../context/userContext";
+import React from 'react';
+import {useUser} from "../../hooks/userContext";
 import styles from './Results.module.scss';
 import cx from 'classnames';
 import {Border} from "../../components/Border/Border";
+import {useFetchResults} from "../../hooks/useFetchResults";
 
-
-interface Result {
-  uuid: string;
-  round: number;
-  fishOneTime: number | null;
-  fishTwoTime: number | null;
-}
 
 export const Result = () => {
-  const [results, setResults] = useState<Result[] | null>(null);
   const [user] = useUser();
-
-  useEffect(() => {
-    async function fetchResults() {
-      const response = await axios
-        .get('/api/results');
-
-      setResults(response.data.data);
-    }
-
-    fetchResults()
-      .catch(e => console.error(e));
-  }, []);
+  const results = useFetchResults();
 
   return (
     <Border>

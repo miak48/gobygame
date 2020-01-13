@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import styles from './Round.module.scss';
 import {Goby, GobyStatus} from '../../components/Goby/Goby';
 import axios from 'axios';
-import {UserActionType, useUser} from "../../context/userContext";
+import {UserActionType, useUser} from "../../hooks/userContext";
 import {Border} from "../../components/Border/Border";
 import {TimerStateValues} from "react-compound-timer";
 import {Coordinate} from "../../utilities/geometry";
@@ -28,11 +28,11 @@ interface RoundProps {
 }
 
 interface FishTimes {
-  [key: string]: number | null;
+  [key: string]: number;
 }
 
-const getFishStatus = (fishTime: number | null, timerState: TimerStateValues) => {
-  if (fishTime !== null) {
+const getFishStatus = (fishTime: number | undefined, timerState: TimerStateValues) => {
+  if (fishTime) {
     return GobyStatus.DISCOVERED;
   } else if (timerState === 'STOPPED') {
     return GobyStatus.UNDISCOVERED;
@@ -42,15 +42,12 @@ const getFishStatus = (fishTime: number | null, timerState: TimerStateValues) =>
 
 export const  Round = ({startTimer, stopTimer, getTime, secondsElapsed, timerState, fish}: RoundProps) => {
   const [user, dispatch] = useUser();
-  const [fishTimes, setFishTimes] = useState<FishTimes>(() => fish.reduce((acc, fish) => {
-    acc[fish.id] = null;
-    return acc;
-  }, {} as FishTimes));
+  const [fishTimes, setFishTimes] = useState<FishTimes>({});
   useState(() => {
     startTimer();
   });
 
-  const isFinished = () => !Object.values(fishTimes).includes(null) || timerState === 'STOPPED';
+  const isFinished = () => Object.values(fishTimes).length === fish.length || timerState === 'STOPPED';
 
   useEffect(() => {
     if (isFinished()) {
