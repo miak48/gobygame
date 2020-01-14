@@ -1,0 +1,36 @@
+@import "../../variables";
+
+.CircleButton {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  border: $border-width solid $border-color;
+  z-index: 10;
+
+  display: inline-block;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: bolder;
+  text-align: center;
+  text-decoration: none;
+
+  &:focus:enabled {
+    outline: 0;
+    //color: black;
+    //border-color: black;
+    animation: pulse 1s infinite;
+    animation-timing-function: linear;
+  }
+
+  &:hover:enabled {
+    animation: pulse 1s infinite;
+    animation-timing-function: linear;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1);
+      100% { transform: scale(1); }
+    }
+  }
+}

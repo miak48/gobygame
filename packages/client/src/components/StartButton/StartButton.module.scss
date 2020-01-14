@@ -1,7 +1,7 @@
 @import "../../variables";
 
 
-.Button {
+.StartButton {
   position: absolute;
   margin: auto;
   left: 0;
@@ -10,32 +10,11 @@
   bottom: 0;
   z-index: 10;
 
-  height: 80px;
-  width: 80px;
-  border-radius: 50%;
-  border: $border-width solid $border-color;
-  color: $border-color;
   background-color: green;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
-  font-weight: bolder;
-  text-align: center;
-  text-decoration: none;
-
-  &:hover:enabled {
-    animation: pulse 1s infinite;
-    animation-timing-function: linear;
-  }
+  color: $border-color;
 
   &:disabled {
     background-color: gray;
     color: lightgray;
-  }
-
-  @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1);
-      100% { transform: scale(1); }
-    }
   }
 }
