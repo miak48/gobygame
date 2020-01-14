@@ -7,7 +7,7 @@ export const Game = () => {
   const id = Math.floor(Math.random() * 3) + 1;
   const {trajectories} = useFetchRound(id.toString());
 
-  return trajectories.length > 0
-    ? (<Round gobyTrajectory={trajectories}/>)
-    : null
+  return (
+    <Round gobyTrajectory={trajectories}/>
+  );
 };

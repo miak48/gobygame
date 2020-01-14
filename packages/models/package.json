@@ -1,0 +1,12 @@
+{
+  "name": "@gobygame/models",
+  "version": "0.1.0",
+  "license": "UNLICENSED",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "typescript": "^3.7.4"
+  }
+}

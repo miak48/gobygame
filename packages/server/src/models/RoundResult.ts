@@ -1,11 +1,7 @@
 import {Document, model, Schema} from "mongoose";
+import {RoundResult} from "@gobygame/models";
 
-export interface RoundResultDocument extends Document {
-  uuid: string;
-  round: number;
-  fishOneTime: number | null;
-  fishTwoTime: number | null;
-}
+type RoundResultDocument = RoundResult & Document;
 
 const RoundResultSchema = new Schema(
   {

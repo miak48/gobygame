@@ -28,7 +28,7 @@ export const createResult = (req: Request, res: Response) => {
         message: "Round Result created!",
       });
     })
-    .catch(error => {
+    .catch((error: Error) => {
       return res.status(400).json({
         error,
         message: "Round Result not created!",

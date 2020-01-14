@@ -1,5 +1,5 @@
 {
-  "name": "gobygame",
+  "name": "@gobygame/client",
   "version": "0.1.0",
   "license": "UNLICENSED",
   "dependencies": {
@@ -43,5 +43,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8000"
+  "proxy": "http://server:8000"
 }

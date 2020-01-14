@@ -1,9 +1,14 @@
 {
+  "name": "gobygame",
   "private": true,
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "build": "yarn workspaces run build"
+    "build": "lerna exec -- tsc",
+    "start": "docker-compose up -d --build"
+  },
+  "devDependencies": {
+    "lerna": "^3.20.2"
   }
 }
