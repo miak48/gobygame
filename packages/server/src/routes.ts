@@ -1,6 +1,6 @@
 import express from "express";
 import * as ResultController from "./controllers/roundResultController";
-import * as GameRoundsController from "./controllers/roundController";
+import * as GameRoundsController from "./controllers/gameRoundController";
 
 export const router = express.Router();
 router.post("/result", ResultController.createResult);

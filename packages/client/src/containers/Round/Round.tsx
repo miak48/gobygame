@@ -5,19 +5,19 @@ import {Border} from "../../components/Border/Border";
 import {GiveUpButton} from "../../components/GiveUpButton/GiveUpButton";
 import {CountdownTimer} from "../../components/CountdownTimer/CountdownTimer";
 import {useRoundTimer} from "../../hooks/useRoundTimer";
-import {GobyTrajectory} from "../../hooks/useFetchRound";
+import {GameRoundTransformed} from "../../hooks/useFetchRound";
 import {StartButton} from "../../components/StartButton/StartButton";
 import cx from 'classnames';
-import {Link, RouteComponentProps, withRouter} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {CircleButton} from "../../components/CircleButton/CircleButton";
 
 
-interface RoundProps extends RouteComponentProps {
-  gobyTrajectory: GobyTrajectory[];
+interface RoundProps {
+  data: GameRoundTransformed | null;
 }
 
-export const Round = withRouter(({gobyTrajectory, history}: RoundProps) => {
-  const {gobies, time, startTimer, hasStarted, isFinished} = useRoundTimer(gobyTrajectory);
+export const Round = ({data}: RoundProps) => {
+  const {gobies, time, startTimer, hasStarted, isFinished} = useRoundTimer(data);
 
   return (
     <Border>
@@ -45,4 +45,4 @@ export const Round = withRouter(({gobyTrajectory, history}: RoundProps) => {
       </div>
     </Border>
   );
-});
+};

@@ -1,8 +1,4 @@
-
-export interface Coordinate {
-    x: number;
-    y: number;
-}
+import {Coordinate} from "@gobygame/models";
 
 // Computes the bearing in degrees from the point A(x,y) to
 // the point B(x,y). Note that A and B are given in terms of

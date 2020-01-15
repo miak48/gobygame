@@ -17,8 +17,8 @@ export const Result = () => {
 
           <div className={styles.Header}>User</div>
           <div className={cx(styles.Header, styles.Number)}>Round</div>
-          <div className={cx(styles.Header, styles.Number)}>Fish One (s)</div>
-          <div className={cx(styles.Header, styles.Number)}>Fish Two (s)</div>
+          <div className={cx(styles.Header, styles.Number)}>Attempt</div>
+          <div className={cx(styles.Header, styles.Number)}>Total Time (s)</div>
           {results
             ? results.map((result, index) => {
               const isUserResult = user.uuid === result.uuid;
@@ -28,13 +28,13 @@ export const Result = () => {
                     {isUserResult ? 'You' : result.uuid}
                   </div>
                   <div className={cx(styles.Cell, styles.Number, {[styles.UserCell]: isUserResult})}>
-                    {result.round}
+                    {result.roundId}
                   </div>
                   <div className={cx(styles.Cell, styles.Number, {[styles.UserCell]: isUserResult})}>
-                    {result.fishOneTime?.toFixed(2) ?? 'Not Caught'}
+                    {result.attempt}
                   </div>
                   <div className={cx(styles.Cell, styles.Number, {[styles.UserCell]: isUserResult})}>
-                    {result.fishTwoTime?.toFixed(2) ?? 'Not Caught'}
+                    {result.foundAll ? (result.totalTime / 1000).toFixed(2) : 'FAILED'}
                   </div>
                 </React.Fragment>
               )

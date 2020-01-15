@@ -4,15 +4,16 @@ import gobyFigure from "../../assets/realgoby_r.png";
 import gobyFigure2 from "../../assets/realgoby_f.png";
 import {useDidUpdateEffect} from "../../hooks/useDidUpdateEffect";
 import {computeBearing} from "../../utilities/geometry";
-import {GobyTrajectory} from "../../hooks/useFetchRound";
+import {GobyTrajectoryTransformed} from "../../hooks/useFetchRound";
+import {Coordinate} from "@gobygame/models";
 
 
 export enum GobyStatus {
   SWIMMING, DISCOVERED, UNDISCOVERED
 }
 
-export interface GobyProps extends Omit<GobyTrajectory, 'id'>{
-  onClick(): void;
+export interface GobyProps extends Omit<GobyTrajectoryTransformed, 'id'>{
+  onClick(coordinate: Coordinate): void;
   count: number;
   status: GobyStatus;
 }
@@ -50,7 +51,7 @@ export const Goby = ({initialPosition, nextPositionFn, count, moveInterval, onCl
     <img
       src={image % 2 === 0 ? gobyFigure : gobyFigure2}
       className={styles.Goby}
-      onClick={onClick}
+      onClick={() => onClick({x, y})}
       style={{
         top: y,
         left: x,

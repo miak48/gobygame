@@ -1,16 +1,18 @@
 import {Document, model, Schema} from "mongoose";
 import {RoundResult} from "@gobygame/models";
 
-type RoundResultDocument = RoundResult & Document;
-
 const RoundResultSchema = new Schema(
   {
     uuid: {type: String, required: true},
-    round: {type: Number, required: true},
-    fishOneTime: Number,
-    fishTwoTime: Number,
+    roundId: {type: Number, required: true},
+    attempt: {type: Number, required: true},
+    totalTime: {type: Number, required: true},
+    numberOfGobies: {type: Number, required: true},
+    foundAll: {type: Number, required: true},
+    catchTimes: [Object],
+    clicks: [Object],
   },
   {timestamps: true},
 );
 
-export const RoundResultModel = model<RoundResultDocument>("RoundResult", RoundResultSchema);
+export const RoundResultModel = model<RoundResult & Document>("RoundResult", RoundResultSchema);

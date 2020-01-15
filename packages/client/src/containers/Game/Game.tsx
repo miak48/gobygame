@@ -7,12 +7,10 @@ import {Redirect, RouteComponentProps} from 'react-router-dom';
 type GameProps = RouteComponentProps<{ round: string }>;
 
 export const Game = ({match}: GameProps) => {
-  const {trajectories} = useFetchRound(match.params.round);
-
-  console.log('Game', match.params.round)
+  const gameRound = useFetchRound(match.params.round);
 
   return (
-    <Round gobyTrajectory={trajectories}/>
+    <Round data={gameRound}/>
   );
 };
 

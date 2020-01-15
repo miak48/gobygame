@@ -33,7 +33,7 @@ export const GobyPlotter = ({initialPosition, nextPositionFn, count, moveInterva
     <img
       src={image % 2 === 0 ? gobyFigure : gobyFigure2}
       className={styles.Goby}
-      onClick={onClick}
+      onClick={() => onClick({x, y})}
       style={{
         top: y,
         left: x,

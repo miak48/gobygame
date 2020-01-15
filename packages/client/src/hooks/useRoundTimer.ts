@@ -3,11 +3,13 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {TimerStateValues, useTimer} from "react-compound-timer";
 import {GobyProps, GobyStatus} from "../components/Goby/Goby";
-import {GobyTrajectory} from "./useFetchRound";
+import {GameRoundTransformed} from "./useFetchRound";
+import {RoundResult, CatchTime} from "@gobygame/models";
+import {Coordinate} from "@gobygame/models";
 
 
 interface GobyTimes {
-  [key: string]: number;
+  [key: string]: CatchTime;
 }
 
 interface UseRoundTimer {
@@ -18,8 +20,8 @@ interface UseRoundTimer {
   isFinished: boolean;
 }
 
-const getFishStatus = (fishTime: number | undefined, timerState: TimerStateValues) => {
-  if (fishTime) {
+const getFishStatus = (catchTime: CatchTime | undefined, timerState: TimerStateValues) => {
+  if (catchTime) {
     return GobyStatus.DISCOVERED;
   } else if (timerState === 'STOPPED') {
     return GobyStatus.UNDISCOVERED;
@@ -27,9 +29,9 @@ const getFishStatus = (fishTime: number | undefined, timerState: TimerStateValue
   return GobyStatus.SWIMMING
 };
 
-export const useRoundTimer = (trajectories: GobyTrajectory[]): UseRoundTimer => {
+export const useRoundTimer = (roundData: GameRoundTransformed | null): UseRoundTimer => {
   const [user, dispatch] = useUser();
-  const [fishTimes, setFishTimes] = useState<GobyTimes>({});
+  const [catchTimes, setCatchTimes] = useState<GobyTimes>({});
   const {controls, value} = useTimer({timeToUpdate: 16, startImmediately: false});
 
   controls.setCheckpoints([{
@@ -37,18 +39,23 @@ export const useRoundTimer = (trajectories: GobyTrajectory[]): UseRoundTimer => 
     callback: controls.stop
   }]);
 
-  const isFinished = () => Object.values(fishTimes).length === trajectories.length || value.state === 'STOPPED';
+  const isFinished = () => Boolean(roundData)
+    && (Object.values(catchTimes).length === roundData?.gobies.length || value.state === 'STOPPED');
 
   useEffect(() => {
     if (isFinished()) {
       controls.stop();
 
       const headers = {headers: {'Content-Type': 'application/json'}};
-      const data = {
+      const data: RoundResult = {
         uuid: user.uuid,
-        round: user.round,
-        fishOneTime: Object.values(fishTimes)[0],
-        fishTwoTime: Object.values(fishTimes)[1],
+        roundId: roundData!.roundId,
+        attempt: 1,
+        totalTime: controls.getTime(),
+        numberOfGobies: roundData!.gobies.length,
+        foundAll: roundData!.gobies.length === Object.values(catchTimes).length,
+        catchTimes: Object.values(catchTimes),
+        clicks: [],
       };
 
       axios.post('/api/result', data, headers)
@@ -56,16 +63,27 @@ export const useRoundTimer = (trajectories: GobyTrajectory[]): UseRoundTimer => 
     }
   }, [isFinished()]); // eslint-disable-line
 
+
+  const recordTime = (id: string) => (coordinate: Coordinate) => {
+    const catchTime: CatchTime = {
+      gobyId: id,
+      time: controls.getTime(),
+      position: coordinate
+    };
+
+    setCatchTimes({...catchTimes, [id]: catchTime})
+  };
+
   return {
-    gobies: trajectories.map(trajectory => ({
+    gobies: roundData?.gobies.map(trajectory => ({
       key: trajectory.id,
       initialPosition: trajectory.initialPosition,
       nextPositionFn: trajectory.nextPositionFn,
       moveInterval: trajectory.moveInterval,
       count: value.s,
-      onClick: () => setFishTimes({...fishTimes, [trajectory.id]: controls.getTime()}),
-      status: getFishStatus(fishTimes[trajectory.id], value.state),
-    })),
+      onClick: recordTime(trajectory.id),
+      status: getFishStatus(catchTimes[trajectory.id], value.state),
+    })) ?? [],
     time: controls.getTime(),
     startTimer: controls.start,
     hasStarted: value.state !== 'INITED',

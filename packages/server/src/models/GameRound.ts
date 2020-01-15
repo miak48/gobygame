@@ -1,20 +1,15 @@
 import {Document, model, Schema} from "mongoose";
-import {GobyTrajectory, GobyTrajectorySchema} from "./GobyTrajectory";
+import {GobyTrajectorySchema} from "./GobyTrajectory";
+import {GameRound} from "@gobygame/models";
 
-
-export interface GameRound extends Document {
-  round: number;
-  timeLimit: number;
-  gobies: GobyTrajectory[];
-}
 
 const GameRoundSchema = new Schema(
   {
-    round: {type: Number, required: true, unique: true},
+    roundId: {type: Number, required: true, unique: true},
     timeLimit: {type: Number, required: true},
     gobies: [GobyTrajectorySchema]
   },
   {timestamps: true},
 );
 
-export const GameRoundModel = model<GameRound>("GameRound", GameRoundSchema);
+export const GameRoundModel = model<GameRound & Document>("GameRound", GameRoundSchema);

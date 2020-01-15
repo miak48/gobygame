@@ -1,16 +1,10 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {RoundResult} from "@gobygame/models";
 
 
-interface Results {
-  uuid: string;
-  round: number;
-  fishOneTime: number | null;
-  fishTwoTime: number | null;
-}
-
-export const useFetchResults = (): Results[] | null => {
-  const [results, setResults] = useState<Results[] | null>(null);
+export const useFetchResults = (): RoundResult[] | null => {
+  const [results, setResults] = useState<RoundResult[] | null>(null);
 
   useEffect(() => {
     async function fetchResults() {

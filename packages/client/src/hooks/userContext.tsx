@@ -4,7 +4,7 @@ import uuidv4 from 'uuid/v4';
 
 interface User {
   uuid: string;
-  round: number;
+  round: number; // TODO: Remove round from user, no longer being used
 }
 
 export enum UserActionType {

@@ -1,17 +1,17 @@
 import roundData from "../data/gameRounds.json";
-import {GameRound, GameRoundModel} from "../models/GameRound";
+import {GameRoundModel} from "../models/GameRound";
 import {Request, Response} from "express-serve-static-core";
 
 export const createRounds = () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
-  GameRoundModel.collection.insertMany(roundData as GameRound[], (error, result) => {
+  GameRoundModel.collection.insertMany(roundData, (error, result) => {
     console.log("Inserted Game Round data", result?.insertedCount);
   });
 };
 
 export const getRoundByNumber = async (req: Request, res: Response) => {
-  await GameRoundModel.findOne({round: req.params.number}, (err, result) => {
+  await GameRoundModel.findOne({roundId: req.params.number}, (err, result) => {
     if (err) {
       return res.status(400).json({success: false, error: err});
     }

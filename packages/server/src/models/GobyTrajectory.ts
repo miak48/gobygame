@@ -1,17 +1,4 @@
-import {Document, Schema} from "mongoose";
-
-export interface Coordinate {
-  x: number;
-  y: number;
-}
-
-export interface GobyTrajectory extends Document {
-  id: string;
-  // nextPositionFn(a: Coordinate): Coordinate;
-  nextPositionFn: string;
-  initialPosition: Coordinate;
-  moveInterval: number;
-}
+import {Schema} from "mongoose";
 
 export const GobyTrajectorySchema = new Schema(
   {

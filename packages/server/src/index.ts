@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import {db} from "./db";
 import {router} from "./routes";
-import {createRounds} from "./controllers/roundController";
+import {createRounds} from "./controllers/gameRoundController";
 
 const app = express();
 const apiPort = process.env.PORT || 8000;

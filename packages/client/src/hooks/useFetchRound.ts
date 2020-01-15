@@ -1,43 +1,43 @@
 import {useState} from "react";
 import axios from "axios";
-import {Coordinate} from "../utilities/geometry";
+import {Coordinate} from "@gobygame/models";
+import {GameRound} from "@gobygame/models";
+import {GobyTrajectory} from "@gobygame/models";
 
 
-export interface GobyTrajectory {
-  id: string;
+export interface GobyTrajectoryTransformed extends Omit<GobyTrajectory, 'nextPositionFn'> {
   nextPositionFn(a: Coordinate): Coordinate;
-  initialPosition: Coordinate;
-  moveInterval: number;
 }
 
-interface UseFetchRound {
-  trajectories: GobyTrajectory[];
-  seconds: number[];
+export interface GameRoundTransformed extends Omit<GameRound, 'gobies'> {
+  gobies: GobyTrajectoryTransformed[];
 }
 
-const transformNextPositionFn = (rawGoby: any): GobyTrajectory => {
-  // eslint-disable-next-line no-new-func
-  rawGoby.nextPositionFn = new Function("{x, y}", rawGoby.nextPositionFn);
-
-  return rawGoby;
+const transformNextPositionFn = (gobyTrajectory: GobyTrajectory): GobyTrajectoryTransformed => {
+  return {
+    ...gobyTrajectory,
+    // eslint-disable-next-line no-new-func
+    nextPositionFn: new Function("{x, y}", gobyTrajectory.nextPositionFn)
+  } as GobyTrajectoryTransformed;
 };
 
-export const useFetchRound = (id: string): UseFetchRound => {
-  const [trajectories, setTrajectories] = useState<GobyTrajectory[]>([]);
-  const [seconds, setSeconds] = useState<number[]>([]);
+export const useFetchRound = (id: string): GameRoundTransformed | null => {
+  const [gameRound, setGameRound] = useState<GameRoundTransformed | null>(null);
 
   useState(() => {
     async function fetchRounds() {
       const response = await axios
         .get(`/api/round/${id}`);
 
-      const round = response.data.data;
-      setTrajectories(round.gobies.map(transformNextPositionFn));
-      setSeconds([...Array(round.timeLimit).keys()]);
+      const round: GameRound = response.data.data;
+      setGameRound({
+        ...round,
+        gobies: round.gobies.map(transformNextPositionFn),
+      });
     }
 
     fetchRounds()
   });
 
-  return {trajectories, seconds}
+  return gameRound;
 };

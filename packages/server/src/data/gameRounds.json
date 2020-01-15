@@ -1,6 +1,6 @@
 [
   {
-    "round": 1,
+    "roundId": 1,
     "timeLimit": 10,
     "gobies": [
       {
@@ -33,7 +33,7 @@
     ]
   },
   {
-    "round": 2,
+    "roundId": 2,
     "timeLimit": 10,
     "gobies": [
       {
@@ -84,7 +84,7 @@
     ]
   },
   {
-    "round": 3,
+    "roundId": 3,
     "timeLimit": 10,
     "gobies": [
       {
