@@ -50,7 +50,7 @@ export const useRoundTimer = (roundData: GameRoundTransformed | null): UseRoundT
       const data: RoundResult = {
         uuid: user.uuid,
         roundId: roundData!.roundId,
-        attempt: 1,
+        attempt: (user.attempts[String(roundData!.roundId)] ?? 0) + 1,
         totalTime: controls.getTime(),
         numberOfGobies: roundData!.gobies.length,
         foundAll: roundData!.gobies.length === Object.values(catchTimes).length,
@@ -59,7 +59,7 @@ export const useRoundTimer = (roundData: GameRoundTransformed | null): UseRoundT
       };
 
       axios.post('/api/result', data, headers)
-        .then(() => dispatch({type: UserActionType.ROUND_INCREMENT}));
+        .then(() => dispatch({type: UserActionType.ROUND_INCREMENT, roundId: roundData!.roundId}));
     }
   }, [isFinished()]); // eslint-disable-line
 

@@ -2,9 +2,13 @@ import React, {Dispatch, FunctionComponent, Reducer, ReducerAction, useEffect, u
 import uuidv4 from 'uuid/v4';
 
 
+interface Attempts {
+  [roundId: string]: number
+}
+
 interface User {
   uuid: string;
-  round: number; // TODO: Remove round from user, no longer being used
+  attempts: Attempts;
 }
 
 export enum UserActionType {
@@ -13,9 +17,12 @@ export enum UserActionType {
 
 interface Action {
   type: UserActionType;
+  roundId: number;
 }
 
 type UserReducer = Reducer<User, Action>;
+
+const ROUND_PREFIX = "round-" as const;
 
 const UserStateContext = React.createContext<User | null>(null);
 const UserDispatchContext = React.createContext<Dispatch<ReducerAction<UserReducer>> | null>(null);
@@ -23,7 +30,13 @@ const UserDispatchContext = React.createContext<Dispatch<ReducerAction<UserReduc
 const userReducer: UserReducer = (state, action) => {
   switch (action.type) {
     case UserActionType.ROUND_INCREMENT: {
-      return {...state, round: state.round + 1}
+      return {
+        uuid: state.uuid,
+        attempts: {
+          ...state.attempts,
+          [String(action.roundId)]: (state.attempts[String(action.roundId)] ?? 0) + 1,
+        }
+      }
     }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`)
@@ -31,16 +44,29 @@ const userReducer: UserReducer = (state, action) => {
   }
 };
 
+const readRoundAttemptsFromLocalStorage = () => {
+  const addToAttempts = (accumulator: Attempts, attempts: [string, string]) => ({
+    ...accumulator,
+    [[...attempts[0]].splice(ROUND_PREFIX.length).join('')]: Number(attempts[1])
+  });
+
+  return Object.entries(localStorage)
+    .filter(key => key[0].includes('round-'))
+    .reduce(addToAttempts, {});
+};
+
 export const UserProvider: FunctionComponent = ({children}) => {
   const [user, dispatch] = useReducer(userReducer, {
     uuid: localStorage.getItem('uuid') || uuidv4(),
-    round: Number(localStorage.getItem('round')) || 1,
+    attempts: readRoundAttemptsFromLocalStorage(),
   });
 
   useEffect(() => {
     localStorage.setItem('uuid', user.uuid);
-    localStorage.setItem('round', user.round.toString());
-  }, [user.uuid, user.round]);
+    Object.entries(user.attempts).forEach((entry) => {
+      localStorage.setItem(ROUND_PREFIX + entry[0], entry[1].toString());
+    })
+  }, [user.uuid, user.attempts]);
 
   return (
     <UserStateContext.Provider value={user}>
