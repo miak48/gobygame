@@ -4,8 +4,13 @@
   "workspaces": [
     "packages/*"
   ],
+  "engines": {
+    "node": "13.x"
+  },
   "scripts": {
-    "build": "lerna exec -- tsc",
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna exec -- yarn build",
+    "postinstall": "yarn bootstrap",
     "start": "docker-compose up -d --build"
   },
   "devDependencies": {
