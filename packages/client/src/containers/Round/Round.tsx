@@ -38,11 +38,10 @@ export const Round = ({data}: RoundProps) => {
         </Link>
       </div>
       }
-      <div className={cx(styles.Game, {[styles.Overlay]: !hasStarted || isFinished})}>
-        {hasStarted && gobies.map(goby => (
-          <Goby {...goby}/>
-        ))}
-      </div>
+      {gobies.map(goby => (
+        <Goby {...goby} display={hasStarted}/>
+      ))}
+      <div className={cx(styles.Game, {[styles.Overlay]: !hasStarted || isFinished})}/>
     </Border>
   );
 };

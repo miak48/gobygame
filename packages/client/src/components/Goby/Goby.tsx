@@ -15,6 +15,7 @@ export interface GobyProps extends Omit<GobyTrajectory, 'gobyId'>{
   onClick(coordinate: Coordinate): void;
   count: number;
   status: GobyStatus;
+  display?: boolean;
 }
 
 const getFilterFromStatus = (status: GobyStatus): string => {
@@ -29,7 +30,7 @@ const getFilterFromStatus = (status: GobyStatus): string => {
   }
 };
 
-export const Goby = ({positions, initialBearing, count, onClick, status}: GobyProps) => {
+export const Goby = ({positions, initialBearing, count, onClick, status, display}: GobyProps) => {
   const [{x, y, b, image}, setCoords] = useState(() => {
     const getBearing = () => {
       if (count === 0) {
@@ -63,6 +64,7 @@ export const Goby = ({positions, initialBearing, count, onClick, status}: GobyPr
         left: x,
         transform: `rotate(${b}deg)`,
         filter: getFilterFromStatus(status),
+        opacity: display ? 1 : 0
       }}
       alt={''}
     />

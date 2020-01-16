@@ -2,5 +2,6 @@
   height: 100px;
   position: absolute;
 
-  transition: all 150ms linear;
+  transition: left 150ms linear, left 150ms linear, opacity 1.5s linear;
+  z-index: 5;
 }
