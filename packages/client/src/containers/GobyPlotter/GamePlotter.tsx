@@ -8,9 +8,9 @@ import {useFetchRound} from "../../hooks/useFetchRound";
 
 export const GamePlotter = ({match}: RouteComponentProps<{round: string}>) => {
   const gameRound = useFetchRound(match.params.round);
-  const seconds = [...Array(gameRound?.timeLimit ?? 0).keys()];
+  const seconds = [...Array(gameRound ? (gameRound.timeLimit * 10) : 0).keys()];
 
-  return (  
+  return (
     <Border>
       <div className={styles.Plotter}>
         {gameRound?.gobies.map(trajectory => (

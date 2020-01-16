@@ -4,8 +4,7 @@ import gobyFigure from "../../assets/realgoby_r.png";
 import gobyFigure2 from "../../assets/realgoby_f.png";
 import {useDidUpdateEffect} from "../../hooks/useDidUpdateEffect";
 import {computeBearing} from "../../utilities/geometry";
-import {Coordinate} from "@gobygame/models";
-import {GobyTrajectory} from "@gobygame/models";
+import {Coordinate, GobyTrajectory} from "@gobygame/models";
 
 
 export enum GobyStatus {
@@ -31,7 +30,17 @@ const getFilterFromStatus = (status: GobyStatus): string => {
 };
 
 export const Goby = ({positions, initialBearing, count, onClick, status}: GobyProps) => {
-  const [{x, y, b, image}, setCoords] = useState({...positions[count], b: initialBearing, image: 0});
+  const [{x, y, b, image}, setCoords] = useState(() => {
+    const getBearing = () => {
+      if (count === 0) {
+        return initialBearing;
+      }
+      const firstMovingPosition = positions.find(p => positions[0].x !== p.x || positions[0].y !== p.y);
+      return firstMovingPosition ? computeBearing(positions[0], firstMovingPosition) : initialBearing;
+    };
+
+    return {...positions[count], b: getBearing(), image: 0}
+  });
 
   useDidUpdateEffect(() => {
     if (status === GobyStatus.SWIMMING) {
