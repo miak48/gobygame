@@ -15,7 +15,8 @@ export const Game = ({match}: GameProps) => {
 };
 
 export const RandomRound = () => {
-  const id = Math.floor(Math.random() * 3) + 1;
+  // const id = Math.floor(Math.random() * 3) + 1;
+  const id = 1;
 
   return (
     <Redirect to={`/game/${id}`}/>

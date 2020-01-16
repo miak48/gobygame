@@ -3,9 +3,8 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {TimerStateValues, useTimer} from "react-compound-timer";
 import {GobyProps, GobyStatus} from "../components/Goby/Goby";
-import {GameRoundTransformed} from "./useFetchRound";
 import {RoundResult, CatchTime} from "@gobygame/models";
-import {Coordinate} from "@gobygame/models";
+import {Coordinate, GameRound} from "@gobygame/models";
 
 
 interface GobyTimes {
@@ -29,7 +28,7 @@ const getFishStatus = (catchTime: CatchTime | undefined, timerState: TimerStateV
   return GobyStatus.SWIMMING
 };
 
-export const useRoundTimer = (roundData: GameRoundTransformed | null): UseRoundTimer => {
+export const useRoundTimer = (roundData: GameRound | null): UseRoundTimer => {
   const [user, dispatch] = useUser();
   const [catchTimes, setCatchTimes] = useState<GobyTimes>({});
   const {controls, value} = useTimer({timeToUpdate: 16, startImmediately: false});
@@ -76,13 +75,12 @@ export const useRoundTimer = (roundData: GameRoundTransformed | null): UseRoundT
 
   return {
     gobies: roundData?.gobies.map(trajectory => ({
-      key: trajectory.id,
-      initialPosition: trajectory.initialPosition,
-      nextPositionFn: trajectory.nextPositionFn,
-      moveInterval: trajectory.moveInterval,
-      count: value.s,
-      onClick: recordTime(trajectory.id),
-      status: getFishStatus(catchTimes[trajectory.id], value.state),
+      key: trajectory.gobyId,
+      initialBearing: trajectory.initialBearing,
+      positions: trajectory.positions,
+      count: Math.trunc(controls.getTime() / 100),
+      onClick: recordTime(trajectory.gobyId),
+      status: getFishStatus(catchTimes[trajectory.gobyId], value.state),
     })) ?? [],
     time: controls.getTime(),
     startTimer: controls.start,

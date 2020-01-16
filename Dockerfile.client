@@ -5,12 +5,11 @@ WORKDIR /app
 RUN yarn global add lerna
 
 COPY package.json .
-RUN yarn install
-
+COPY lerna.json .
 COPY packages/models ./packages/models
 COPY packages/client ./packages/client
 
-COPY lerna.json .
+RUN yarn install
 RUN lerna bootstrap
 
 EXPOSE 3000

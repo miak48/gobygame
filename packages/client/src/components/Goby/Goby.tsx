@@ -4,15 +4,15 @@ import gobyFigure from "../../assets/realgoby_r.png";
 import gobyFigure2 from "../../assets/realgoby_f.png";
 import {useDidUpdateEffect} from "../../hooks/useDidUpdateEffect";
 import {computeBearing} from "../../utilities/geometry";
-import {GobyTrajectoryTransformed} from "../../hooks/useFetchRound";
 import {Coordinate} from "@gobygame/models";
+import {GobyTrajectory} from "@gobygame/models";
 
 
 export enum GobyStatus {
   SWIMMING, DISCOVERED, UNDISCOVERED
 }
 
-export interface GobyProps extends Omit<GobyTrajectoryTransformed, 'id'>{
+export interface GobyProps extends Omit<GobyTrajectory, 'gobyId'>{
   onClick(coordinate: Coordinate): void;
   count: number;
   status: GobyStatus;
@@ -30,20 +30,17 @@ const getFilterFromStatus = (status: GobyStatus): string => {
   }
 };
 
-export const Goby = ({initialPosition, nextPositionFn, count, moveInterval, onClick, status}: GobyProps) => {
-  const [{x, y, b, image}, setCoords] = useState(() => {
-    const nextPosition = nextPositionFn(initialPosition);
-    const initialBearing = computeBearing(initialPosition, nextPosition);
-
-    return {...initialPosition, b: initialBearing, image: 0}
-  });
+export const Goby = ({positions, initialBearing, count, onClick, status}: GobyProps) => {
+  const [{x, y, b, image}, setCoords] = useState({...positions[count], b: initialBearing, image: 0});
 
   useDidUpdateEffect(() => {
-    if (count % moveInterval === 0 && status === GobyStatus.SWIMMING) {
-      const nextPosition = nextPositionFn({x, y});
+    if (status === GobyStatus.SWIMMING) {
+      const nextPosition = positions[count];
       const nextBearing = computeBearing({x, y}, nextPosition);
 
-      setCoords({...nextPosition, b: nextBearing, image: image + 1})
+      const isStill = x === nextPosition.x && y === nextPosition.y;
+
+      setCoords({...nextPosition, b: isStill ? b : nextBearing, image: isStill ? image : image + 1})
     }
   }, [count]);
 

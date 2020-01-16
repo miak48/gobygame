@@ -5,15 +5,15 @@ import {Border} from "../../components/Border/Border";
 import {GiveUpButton} from "../../components/GiveUpButton/GiveUpButton";
 import {CountdownTimer} from "../../components/CountdownTimer/CountdownTimer";
 import {useRoundTimer} from "../../hooks/useRoundTimer";
-import {GameRoundTransformed} from "../../hooks/useFetchRound";
 import {StartButton} from "../../components/StartButton/StartButton";
 import cx from 'classnames';
 import {Link} from "react-router-dom";
 import {CircleButton} from "../../components/CircleButton/CircleButton";
+import {GameRound} from "@gobygame/models";
 
 
 interface RoundProps {
-  data: GameRoundTransformed | null;
+  data: GameRound | null;
 }
 
 export const Round = ({data}: RoundProps) => {
