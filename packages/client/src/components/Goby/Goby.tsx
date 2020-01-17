@@ -1,7 +1,7 @@
 import styles from './Goby.module.scss';
 import React, {useState} from 'react';
-import gobyFigure from "../../assets/realgoby_r.png";
-import gobyFigure2 from "../../assets/realgoby_f.png";
+import gobyNoCamo from "../../assets/GobyNoCamo.png";
+import gobyCamo from "../../assets/GobyCamo.png";
 import {useDidUpdateEffect} from "../../hooks/useDidUpdateEffect";
 import {computeBearing} from "../../utilities/geometry";
 import {Coordinate, GobyTrajectory} from "@gobygame/models";
@@ -16,6 +16,7 @@ export interface GobyProps extends Omit<GobyTrajectory, 'gobyId'>{
   count: number;
   status: GobyStatus;
   display?: boolean;
+  image?: number;
 }
 
 const getFilterFromStatus = (status: GobyStatus): string => {
@@ -56,7 +57,7 @@ export const Goby = ({positions, initialBearing, count, onClick, status, display
 
   return (
     <img
-      src={image % 2 === 0 ? gobyFigure : gobyFigure2}
+      src={image === 1 ? gobyNoCamo : gobyCamo}
       className={styles.Goby}
       onClick={() => onClick({x, y})}
       style={{
