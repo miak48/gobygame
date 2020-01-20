@@ -9,6 +9,7 @@ import {useWindowSize} from "./hooks/useWindowSize";
 import {GamePlotter} from "./containers/GobyPlotter/GamePlotter";
 import {Game, RandomRound} from "./containers/Game/Game";
 import {GameRoundProvider} from "./hooks/gameRoundContext";
+import {ResultsExporter} from "./containers/ResultsExporter/ResultsExporter";
 
 export const App = () => {
   const windowSize = useWindowSize();
@@ -27,6 +28,7 @@ export const App = () => {
             <Route exact path="/plots" component={() => <Redirect to={'/plot/1'}/>}/>
             <Route exact path="/plot" component={() => <Redirect to={'/plot/1'}/>}/>
             <Route exact path="/plot/:round" component={GamePlotter}/>
+            <Route exact path="/export" component={ResultsExporter}/>
           </BrowserRouter>
         </GameRoundProvider>
       </UserProvider>
