@@ -10,6 +10,7 @@ export enum GobyStatus {
 }
 
 export interface GobyProps {
+  gobyId: string,
   position: Coordinate;
   onClick(coordinate: Coordinate): void;
   status: GobyStatus;

@@ -1,27 +1,22 @@
 import {UserActionType, useUser} from "./userContext";
-import React, {MutableRefObject, useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import {TimerStateValues, useTimer} from "react-compound-timer";
 import {GobyProps, GobyStatus} from "../components/Goby/Goby";
-import {CatchTime, Click, Coordinate, GameRound, RoundResult} from "@gobygame/models";
+import {CatchTime, Coordinate, GameRound, RoundResult} from "@gobygame/models";
+import {useClickTracker, UseClickTracker} from "./useClickTracker";
 
 
 interface GobyTimes {
   [key: string]: CatchTime;
 }
 
-interface UseRoundTimer {
+interface UseRoundTimer extends Omit<UseClickTracker, 'clicks'> {
   gobies: GobyProps[];
   time: number;
-
   startTimer(): void;
-
   hasStarted: boolean;
   isFinished: boolean;
-
-  gameBoardClick(event: React.MouseEvent<HTMLDivElement>): void;
-
-  gameBoardRef: MutableRefObject<HTMLDivElement | null>;
 }
 
 const getFishStatus = (catchTime: CatchTime | undefined, timerState: TimerStateValues) => {
@@ -37,9 +32,8 @@ export const useRoundTimer = (roundData: GameRound | null): UseRoundTimer => {
   const [user, dispatch] = useUser();
   const [catchTimes, setCatchTimes] = useState<GobyTimes>({});
   const {controls, value} = useTimer({timeToUpdate: 16, startImmediately: false});
-  const [missedClicks, setMissedClicks] = useState<Click[]>([]);
-  const gameBoardRef = useRef<HTMLDivElement | null>(null);
 
+  const timeLimit = roundData?.timeLimit;
   useEffect(() => {
     if (roundData?.timeLimit) {
       controls.setCheckpoints([{
@@ -47,7 +41,35 @@ export const useRoundTimer = (roundData: GameRound | null): UseRoundTimer => {
         callback: controls.stop
       }]);
     }
-  }, [roundData?.timeLimit])
+  }, [timeLimit]); // eslint-disable-line
+
+  const recordCatchTime = (id: string) => (coordinate: Coordinate) => {
+    const catchTime: CatchTime = {
+      gobyId: id,
+      time: controls.getTime(),
+      position: coordinate
+    };
+
+    setCatchTimes({...catchTimes, [id]: catchTime})
+  };
+
+  const decisecond = Math.trunc(controls.getTime() / 100);
+
+  const gobyProps = roundData?.gobies.map(trajectory => {
+    return {
+      key: trajectory.gobyId,
+      gobyId: trajectory.gobyId,
+      position: catchTimes[trajectory.gobyId]
+        ? catchTimes[trajectory.gobyId].position
+        : trajectory.positions[decisecond],
+      onClick: recordCatchTime(trajectory.gobyId),
+      status: getFishStatus(catchTimes[trajectory.gobyId], value.state),
+      bearing: trajectory.initialBearing,
+      image: trajectory.image,
+    }
+  }) ?? [];
+
+  const {clicks, onClick, ref} = useClickTracker(gobyProps, controls.getTime);
 
   const isFinished = () => Boolean(roundData)
     && (Object.values(catchTimes).length === roundData?.gobies.length || value.state === 'STOPPED');
@@ -65,7 +87,7 @@ export const useRoundTimer = (roundData: GameRound | null): UseRoundTimer => {
         numberOfGobies: roundData!.gobies.length,
         foundAll: roundData!.gobies.length === Object.values(catchTimes).length,
         catchTimes: Object.values(catchTimes),
-        clicks: missedClicks,
+        missedClicks: clicks, // TODO: Currently only tracking missed clicks
       };
 
       axios.post('/api/result', data, headers)
@@ -73,56 +95,13 @@ export const useRoundTimer = (roundData: GameRound | null): UseRoundTimer => {
     }
   }, [isFinished()]); // eslint-disable-line
 
-  const recordCatchTime = (id: string) => (coordinate: Coordinate) => {
-    const catchTime: CatchTime = {
-      gobyId: id,
-      time: controls.getTime(),
-      position: coordinate
-    };
-
-    setCatchTimes({...catchTimes, [id]: catchTime})
-  };
-
-  const decisecond = Math.trunc(controls.getTime() / 100);
-
-  const onClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    const bounds = gameBoardRef.current!.getBoundingClientRect();
-    const x = event.clientX - bounds.left;
-    const y = event.clientY - bounds.top;
-
-    const newClick: Click = {
-      time: controls.getTime(),
-      position: {x, y},
-      success: false,
-      locations: roundData?.gobies.map(trajectory => ({
-        id: trajectory.gobyId,
-        position: catchTimes[trajectory.gobyId]
-          ? catchTimes[trajectory.gobyId].position
-          : trajectory.positions[decisecond],
-      })) ?? [],
-    };
-
-    setMissedClicks([...missedClicks, newClick])
-  };
-
   return {
-    gobies: roundData?.gobies.map(trajectory => {
-      return {
-        key: trajectory.gobyId,
-        position: catchTimes[trajectory.gobyId]
-          ? catchTimes[trajectory.gobyId].position
-          : trajectory.positions[decisecond],
-        onClick: recordCatchTime(trajectory.gobyId),
-        status: getFishStatus(catchTimes[trajectory.gobyId], value.state),
-        bearing: trajectory.initialBearing,
-        image: trajectory.image,
-      }
-    }) ?? [],
+    onClick,
+    ref,
+    gobies: gobyProps,
     time: controls.getTime(),
     startTimer: controls.start,
     hasStarted: value.state !== 'INITED',
     isFinished: isFinished(),
-    gameBoardRef: gameBoardRef,
-    gameBoardClick: onClick,
   }
 };

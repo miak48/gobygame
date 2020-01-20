@@ -1,24 +1,25 @@
 import React from 'react';
-import {useFetchRound} from "../../hooks/useFetchRound";
 import {Round} from "../Round/Round";
 import {Redirect, RouteComponentProps} from 'react-router-dom';
+import {useGameRounds} from "../../hooks/gameRoundContext";
+import {useLeastPlayedRound} from "../../hooks/useLeastPlayedRound";
 
 
 type GameProps = RouteComponentProps<{ round: string }>;
 
 export const Game = ({match}: GameProps) => {
-  const gameRound = useFetchRound(match.params.round);
+  const [{gameRounds}] = useGameRounds();
+  const currentRound = gameRounds.find(round => round.roundId === Number(match.params.round));
 
-  return (
-    <Round data={gameRound}/>
-  );
+  return currentRound
+    ? <Round data={currentRound}/>
+    : <Redirect to={'/game'}/>;
 };
 
 export const RandomRound = () => {
-  // const id = Math.floor(Math.random() * 3) + 1;
-  const id = 1;
+  const roundId = useLeastPlayedRound();
 
-  return (
-    <Redirect to={`/game/${id}`}/>
-  );
+  return roundId !== null
+    ? <Redirect to={`/game/${roundId}`}/>
+    : null;
 };

@@ -10,7 +10,7 @@ const RoundResultSchema = new Schema(
     numberOfGobies: {type: Number, required: true},
     foundAll: {type: Number, required: true},
     catchTimes: [Object],
-    clicks: [Object],
+    missedClicks: [Object],
   },
   {timestamps: true},
 );

@@ -1,17 +1,16 @@
 import {Coordinate} from "./Coordinate";
 
-export interface CatchTime {
+
+export interface GobyCoordinates {
   gobyId: string;
-  time: number;
   position: Coordinate;
 }
 
-type GobyCoordinates = {
-  id: string;
-  position: Coordinate;
-};
+export interface CatchTime extends GobyCoordinates {
+  time: number;
+}
 
-export interface Click {
+export interface MissedClick {
   time: number;
   position: Coordinate;
   success: boolean;
@@ -26,5 +25,5 @@ export interface RoundResult {
   numberOfGobies: number;
   foundAll: boolean;
   catchTimes: CatchTime[];
-  clicks: Click[];
+  missedClicks: MissedClick[];
 }

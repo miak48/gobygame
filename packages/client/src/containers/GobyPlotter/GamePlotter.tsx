@@ -17,6 +17,7 @@ export const GamePlotter = ({match}: RouteComponentProps<{round: string}>) => {
           seconds.map(n => (
             <Goby
               key={trajectory.gobyId + n}
+              gobyId={trajectory.gobyId}
               bearing={trajectory.initialBearing}
               position={trajectory.positions[n]}
               onClick={() => console.log('click')}

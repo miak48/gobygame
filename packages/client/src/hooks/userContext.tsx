@@ -2,7 +2,7 @@ import React, {Dispatch, FunctionComponent, Reducer, ReducerAction, useEffect, u
 import uuidv4 from 'uuid/v4';
 
 
-interface Attempts {
+export interface Attempts {
   [roundId: string]: number
 }
 
