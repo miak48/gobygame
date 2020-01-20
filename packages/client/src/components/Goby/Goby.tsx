@@ -1,22 +1,21 @@
 import styles from './Goby.module.scss';
-import React, {useState} from 'react';
+import React from 'react';
 import gobyNoCamo from "../../assets/GobyNoCamo.png";
 import gobyCamo from "../../assets/GobyCamo.png";
-import {useDidUpdateEffect} from "../../hooks/useDidUpdateEffect";
-import {computeBearing} from "../../utilities/geometry";
-import {Coordinate, GobyTrajectory} from "@gobygame/models";
+import {Coordinate} from "@gobygame/models";
 
 
 export enum GobyStatus {
   SWIMMING, DISCOVERED, UNDISCOVERED
 }
 
-export interface GobyProps extends Omit<GobyTrajectory, 'gobyId'>{
+export interface GobyProps {
+  position: Coordinate;
   onClick(coordinate: Coordinate): void;
-  count: number;
   status: GobyStatus;
   display?: boolean;
-  image?: number;
+  bearing: number;
+  image: number;
 }
 
 const getFilterFromStatus = (status: GobyStatus): string => {
@@ -31,39 +30,16 @@ const getFilterFromStatus = (status: GobyStatus): string => {
   }
 };
 
-export const Goby = ({positions, initialBearing, count, onClick, status, display}: GobyProps) => {
-  const [{x, y, b, image}, setCoords] = useState(() => {
-    const getBearing = () => {
-      if (count === 0) {
-        return initialBearing;
-      }
-      const firstMovingPosition = positions.find(p => positions[0].x !== p.x || positions[0].y !== p.y);
-      return firstMovingPosition ? computeBearing(positions[0], firstMovingPosition) : initialBearing;
-    };
-
-    return {...positions[count], b: getBearing(), image: 0}
-  });
-
-  useDidUpdateEffect(() => {
-    if (status === GobyStatus.SWIMMING) {
-      const nextPosition = positions[count];
-      const nextBearing = computeBearing({x, y}, nextPosition);
-
-      const isStill = x === nextPosition.x && y === nextPosition.y;
-
-      setCoords({...nextPosition, b: isStill ? b : nextBearing, image: isStill ? image : image + 1})
-    }
-  }, [count]);
-
+export const Goby = ({position, bearing, onClick, status, display, image}: GobyProps) => {
   return (
     <img
       src={image === 1 ? gobyNoCamo : gobyCamo}
       className={styles.Goby}
-      onClick={() => onClick({x, y})}
+      onClick={() => onClick(position)}
       style={{
-        top: y,
-        left: x,
-        transform: `rotate(${b}deg)`,
+        top: position.y,
+        left: position.x,
+        transform: `rotate(${bearing}deg)`,
         filter: getFilterFromStatus(status),
         opacity: display ? 1 : 0
       }}

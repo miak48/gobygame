@@ -4,4 +4,5 @@ export interface GobyTrajectory {
   gobyId: string;
   initialBearing: number;
   positions: Coordinate[];
+  image: number;
 }
