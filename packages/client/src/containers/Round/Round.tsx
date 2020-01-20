@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import styles from './Round.module.scss';
 import {Goby} from '../../components/Goby/Goby';
 import {Border} from "../../components/Border/Border";
@@ -17,7 +17,7 @@ interface RoundProps {
 }
 
 export const Round = ({data}: RoundProps) => {
-  const {gobies, time, startTimer, hasStarted, isFinished} = useRoundTimer(data);
+  const {gobies, time, startTimer, hasStarted, isFinished, gameBoardRef, gameBoardClick} = useRoundTimer(data);
 
   return (
     <Border>
@@ -41,7 +41,11 @@ export const Round = ({data}: RoundProps) => {
       {gobies.map(goby => (
         <Goby {...goby} display={hasStarted}/>
       ))}
-      <div className={cx(styles.Game, {[styles.Overlay]: !hasStarted || isFinished})}/>
+      <div
+        ref={gameBoardRef}
+        className={cx(styles.Game, {[styles.Overlay]: !hasStarted || isFinished})}
+        onClick={gameBoardClick}
+      />
     </Border>
   );
 };

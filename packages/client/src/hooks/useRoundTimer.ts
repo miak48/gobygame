@@ -1,11 +1,9 @@
 import {UserActionType, useUser} from "./userContext";
-import {useEffect, useState} from "react";
+import React, {MutableRefObject, useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {TimerStateValues, useTimer} from "react-compound-timer";
 import {GobyProps, GobyStatus} from "../components/Goby/Goby";
-import {RoundResult, CatchTime} from "@gobygame/models";
-import {Coordinate, GameRound} from "@gobygame/models";
-import {transcode} from "buffer";
+import {CatchTime, Click, Coordinate, GameRound, RoundResult} from "@gobygame/models";
 
 
 interface GobyTimes {
@@ -15,9 +13,15 @@ interface GobyTimes {
 interface UseRoundTimer {
   gobies: GobyProps[];
   time: number;
+
   startTimer(): void;
+
   hasStarted: boolean;
   isFinished: boolean;
+
+  gameBoardClick(event: React.MouseEvent<HTMLDivElement>): void;
+
+  gameBoardRef: MutableRefObject<HTMLDivElement | null>;
 }
 
 const getFishStatus = (catchTime: CatchTime | undefined, timerState: TimerStateValues) => {
@@ -33,11 +37,17 @@ export const useRoundTimer = (roundData: GameRound | null): UseRoundTimer => {
   const [user, dispatch] = useUser();
   const [catchTimes, setCatchTimes] = useState<GobyTimes>({});
   const {controls, value} = useTimer({timeToUpdate: 16, startImmediately: false});
+  const [missedClicks, setMissedClicks] = useState<Click[]>([]);
+  const gameBoardRef = useRef<HTMLDivElement | null>(null);
 
-  controls.setCheckpoints([{
-    time: 10000,
-    callback: controls.stop
-  }]);
+  useEffect(() => {
+    if (roundData?.timeLimit) {
+      controls.setCheckpoints([{
+        time: roundData?.timeLimit * 1000,
+        callback: controls.stop
+      }]);
+    }
+  }, [roundData?.timeLimit])
 
   const isFinished = () => Boolean(roundData)
     && (Object.values(catchTimes).length === roundData?.gobies.length || value.state === 'STOPPED');
@@ -55,7 +65,7 @@ export const useRoundTimer = (roundData: GameRound | null): UseRoundTimer => {
         numberOfGobies: roundData!.gobies.length,
         foundAll: roundData!.gobies.length === Object.values(catchTimes).length,
         catchTimes: Object.values(catchTimes),
-        clicks: [],
+        clicks: missedClicks,
       };
 
       axios.post('/api/result', data, headers)
@@ -63,7 +73,7 @@ export const useRoundTimer = (roundData: GameRound | null): UseRoundTimer => {
     }
   }, [isFinished()]); // eslint-disable-line
 
-  const recordTime = (id: string) => (coordinate: Coordinate) => {
+  const recordCatchTime = (id: string) => (coordinate: Coordinate) => {
     const catchTime: CatchTime = {
       gobyId: id,
       time: controls.getTime(),
@@ -74,6 +84,27 @@ export const useRoundTimer = (roundData: GameRound | null): UseRoundTimer => {
   };
 
   const decisecond = Math.trunc(controls.getTime() / 100);
+
+  const onClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    const bounds = gameBoardRef.current!.getBoundingClientRect();
+    const x = event.clientX - bounds.left;
+    const y = event.clientY - bounds.top;
+
+    const newClick: Click = {
+      time: controls.getTime(),
+      position: {x, y},
+      success: false,
+      locations: roundData?.gobies.map(trajectory => ({
+        id: trajectory.gobyId,
+        position: catchTimes[trajectory.gobyId]
+          ? catchTimes[trajectory.gobyId].position
+          : trajectory.positions[decisecond],
+      })) ?? [],
+    };
+
+    setMissedClicks([...missedClicks, newClick])
+  };
+
   return {
     gobies: roundData?.gobies.map(trajectory => {
       return {
@@ -81,7 +112,7 @@ export const useRoundTimer = (roundData: GameRound | null): UseRoundTimer => {
         position: catchTimes[trajectory.gobyId]
           ? catchTimes[trajectory.gobyId].position
           : trajectory.positions[decisecond],
-        onClick: recordTime(trajectory.gobyId),
+        onClick: recordCatchTime(trajectory.gobyId),
         status: getFishStatus(catchTimes[trajectory.gobyId], value.state),
         bearing: trajectory.initialBearing,
         image: trajectory.image,
@@ -91,5 +122,7 @@ export const useRoundTimer = (roundData: GameRound | null): UseRoundTimer => {
     startTimer: controls.start,
     hasStarted: value.state !== 'INITED',
     isFinished: isFinished(),
+    gameBoardRef: gameBoardRef,
+    gameBoardClick: onClick,
   }
 };
