@@ -73,14 +73,14 @@ export const useRoundTimer = (roundData: GameRound): UseRoundTimer => {
     setCatchTimes({...catchTimes, [gobyId]: catchTime})
   };
 
-
   const gobyProps = roundData.gobies.map(trajectory => {
+    const fishStatus = getFishStatus(catchTimes[trajectory.gobyId], value.state);
     return {
       key: trajectory.gobyId,
       gobyId: trajectory.gobyId,
       position: catchTimes[trajectory.gobyId]?.position ?? trajectory.positions[decisecond],
-      onClick: recordCatchTime(trajectory.gobyId),
-      status: getFishStatus(catchTimes[trajectory.gobyId], value.state),
+      onClick: fishStatus === GobyStatus.SWIMMING && value.state !== 'STOPPED' ? recordCatchTime(trajectory.gobyId) : () => undefined,
+      status: fishStatus,
       bearing: trajectory.initialBearing,
       image: trajectory.image,
     }
@@ -102,7 +102,7 @@ export const useRoundTimer = (roundData: GameRound): UseRoundTimer => {
         totalTime: controls.getTime(),
         foundAll: roundData.gobies.length === Object.values(catchTimes).length,
         catchTimes: Object.entries(catchTimes).map(entry => ({gobyId: entry[0], catchTime: entry[1]})),
-        missedClicks: clicks, // TODO: Currently only tracking missed clicks
+        misses: Object.entries(clicks).map(entry => ({gobyId: entry[0], missedClicks: entry[1]})),
       };
 
       axios.post('/api/result', data, headers)

@@ -1,12 +1,5 @@
 import {Document, model, Schema} from "mongoose";
 import {RoundResult} from "@gobygame/models";
-import {CoordinateSchema} from "./Coordinate";
-
-const CatchTimeSchema = new Schema({
-  gobyId: {type: String, required: true},
-  position: {type: CoordinateSchema, required: true},
-  time: {type: Number, required: true}
-});
 
 const RoundResultSchema = new Schema(
   {
@@ -17,9 +10,12 @@ const RoundResultSchema = new Schema(
     foundAll: {type: Number, required: true},
     catchTimes: [{
       gobyId: {type: String, required: true},
-      catchTime: CatchTimeSchema
+      catchTime: Object
     }],
-    missedClicks: [Object],
+    misses: [{
+      gobyId: {type: String, required: true},
+      missedClicks: [Object]
+    }],
   },
   {timestamps: true},
 );

@@ -15,8 +15,8 @@ const headers = [
   { label: "Y", key: "y" },
   { label: "Time (ms)", key: "time" },
   { label: "Nearest Undiscovered Goby", key: "nearestNeighbor" },
-  { label: "Nearest Undiscovered Goby Position", key: "nearestNeighborPosition" },
   { label: "Nearest Undiscovered Goby Distance", key: "nearestNeighborDistance" },
+  { label: "misses", key: "misses" },
 ];
 
 export const Exporter = () => {
@@ -37,8 +37,8 @@ export const Exporter = () => {
       y: catchTime?.position.y ?? 'NA',
       time: catchTime?.time ?? 'NA',
       nearestNeighbor: catchTime?.nearestNeighbor ?? 'NA',
-      nearestNeighborPosition: catchTime?.nearestNeighborPosition ?? 'NA',
       nearestNeighborDistance: catchTime?.nearestNeighborDistance ?? 'NA',
+      misses: result.misses.find(miss => miss.gobyId === gobyId)?.missedClicks.length ?? 0,
     }))
   }) ?? [];
 

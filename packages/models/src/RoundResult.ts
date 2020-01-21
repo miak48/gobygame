@@ -9,14 +9,14 @@ export interface GobyCoordinates {
 export interface CatchTime extends GobyCoordinates {
   time: number;
   nearestNeighbor: string | null;
-  nearestNeighborPosition: string | null;
+  nearestNeighborPosition: Coordinate | null;
+  nearestNeighborDistance: number | null;
 }
 
 export interface MissedClick {
   time: number;
-  position: Coordinate;
-  success: boolean;
-  locations: GobyCoordinates[];
+  distance: number;
+  targetGobyId: string;
 }
 
 export interface RoundResult {
@@ -26,5 +26,5 @@ export interface RoundResult {
   totalTime: number;
   foundAll: boolean;
   catchTimes: {gobyId: string; catchTime: CatchTime | null}[];
-  missedClicks: MissedClick[];
+  misses: {gobyId: string; missedClicks: MissedClick[]}[];
 }
