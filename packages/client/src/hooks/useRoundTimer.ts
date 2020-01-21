@@ -5,6 +5,8 @@ import {TimerStateValues, useTimer} from "react-compound-timer";
 import {GobyProps, GobyStatus} from "../components/Goby/Goby";
 import {CatchTime, Coordinate, GameRound, RoundResult} from "@gobygame/models";
 import {useClickTracker, UseClickTracker} from "./useClickTracker";
+import {findDistanceBetween} from "../utilities/findDistanceBetween";
+import {findMinInObject} from "../utilities/findMinObject";
 
 
 interface GobyTimes {
@@ -39,7 +41,7 @@ export const useRoundTimer = (roundData: GameRound): UseRoundTimer => {
 
   const {controls, value} = useTimer({timeToUpdate: 16, startImmediately: false});
   useState(() => {
-    if (roundData?.timeLimit) {
+    if (roundData.timeLimit) {
       controls.setCheckpoints([{
         time: roundData.timeLimit * 1000,
         callback: controls.stop
@@ -47,19 +49,32 @@ export const useRoundTimer = (roundData: GameRound): UseRoundTimer => {
     }
   });
 
-  const recordCatchTime = (id: string) => (coordinate: Coordinate) => {
-    const catchTime: CatchTime = {
-      gobyId: id,
-      time: controls.getTime(),
-      position: coordinate
-    };
-
-    setCatchTimes({...catchTimes, [id]: catchTime})
-  };
-
   const decisecond = Math.trunc(controls.getTime() / 100);
 
-  const gobyProps = roundData?.gobies.map(trajectory => {
+  const recordCatchTime = (gobyId: string) => (coordinate: Coordinate) => {
+    const undiscoveredGobies = roundData.gobies
+      .filter(trajectory => trajectory.gobyId !== gobyId && catchTimes[trajectory.gobyId] === null)
+      .map(trajectory => ({
+        gobyId: trajectory.gobyId,
+        position: trajectory.positions[decisecond],
+        distance: findDistanceBetween(coordinate, trajectory.positions[decisecond]),
+      }));
+
+    const closestUndiscoveredGoby = findMinInObject(undiscoveredGobies, 'distance');
+    const catchTime: CatchTime = {
+      gobyId,
+      time: controls.getTime(),
+      position: coordinate,
+      nearestNeighbor: closestUndiscoveredGoby?.gobyId ?? null,
+      nearestNeighborPosition: closestUndiscoveredGoby?.position ?? null,
+      nearestNeighborDistance: closestUndiscoveredGoby?.distance ?? null,
+    };
+
+    setCatchTimes({...catchTimes, [gobyId]: catchTime})
+  };
+
+
+  const gobyProps = roundData.gobies.map(trajectory => {
     return {
       key: trajectory.gobyId,
       gobyId: trajectory.gobyId,

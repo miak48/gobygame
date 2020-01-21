@@ -4,14 +4,6 @@ import {CircleButton} from "../../components/CircleButton/CircleButton";
 import {useFetchResults} from "../../hooks/useFetchResults";
 
 
-interface FileColumns {
-  uuid: string;
-  roundId: number,
-  attempt: number,
-  playedAt: string,
-  gobyId: string,
-}
-
 const headers = [
   { label: "User", key: "uuid" },
   { label: "Round", key: "roundId" },
@@ -22,17 +14,17 @@ const headers = [
   { label: "X", key: "x" },
   { label: "Y", key: "y" },
   { label: "Time (ms)", key: "time" },
+  { label: "Nearest Undiscovered Goby", key: "nearestNeighbor" },
+  { label: "Nearest Undiscovered Goby Position", key: "nearestNeighborPosition" },
+  { label: "Nearest Undiscovered Goby Distance", key: "nearestNeighborDistance" },
 ];
-
 
 export const Exporter = () => {
   const results = useFetchResults();
 
   console.log('results', results)
 
-  const data: FileColumns[] = results?.flatMap(result => {
-
-
+  const data = results?.flatMap(result => {
     return result.catchTimes.map(({gobyId, catchTime}) => ({
       uuid: result.uuid,
       roundId: result.roundId,
@@ -44,8 +36,9 @@ export const Exporter = () => {
       x: catchTime?.position.x ?? 'NA',
       y: catchTime?.position.y ?? 'NA',
       time: catchTime?.time ?? 'NA',
-
-
+      nearestNeighbor: catchTime?.nearestNeighbor ?? 'NA',
+      nearestNeighborPosition: catchTime?.nearestNeighborPosition ?? 'NA',
+      nearestNeighborDistance: catchTime?.nearestNeighborDistance ?? 'NA',
     }))
   }) ?? [];
 
