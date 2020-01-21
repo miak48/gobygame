@@ -40,9 +40,9 @@ export const Goby = ({position, bearing, onClick, status, display, image}: GobyP
       style={{
         top: position.y,
         left: position.x,
-        transform: `rotate(${bearing}deg)`,
+        transform: `translate(-50%,-50%) rotate(${bearing}deg)`,
         filter: getFilterFromStatus(status),
-        opacity: display ? 1 : 0
+        opacity: display ? 1 : 0,
       }}
       alt={''}
     />
