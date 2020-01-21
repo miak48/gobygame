@@ -13,7 +13,7 @@ import {GameRound} from "@gobygame/models";
 
 
 interface RoundProps {
-  data: GameRound | null;
+  data: GameRound;
 }
 
 export const Round = ({data}: RoundProps) => {

@@ -8,7 +8,7 @@ import {useClickTracker, UseClickTracker} from "./useClickTracker";
 
 
 interface GobyTimes {
-  [key: string]: CatchTime;
+  [key: string]: CatchTime | null;
 }
 
 interface UseRoundTimer extends Omit<UseClickTracker, 'clicks'> {
@@ -19,7 +19,7 @@ interface UseRoundTimer extends Omit<UseClickTracker, 'clicks'> {
   isFinished: boolean;
 }
 
-const getFishStatus = (catchTime: CatchTime | undefined, timerState: TimerStateValues) => {
+const getFishStatus = (catchTime: CatchTime | null, timerState: TimerStateValues) => {
   if (catchTime) {
     return GobyStatus.DISCOVERED;
   } else if (timerState === 'STOPPED') {
@@ -28,20 +28,24 @@ const getFishStatus = (catchTime: CatchTime | undefined, timerState: TimerStateV
   return GobyStatus.SWIMMING
 };
 
-export const useRoundTimer = (roundData: GameRound | null): UseRoundTimer => {
+export const useRoundTimer = (roundData: GameRound): UseRoundTimer => {
   const [user, dispatch] = useUser();
-  const [catchTimes, setCatchTimes] = useState<GobyTimes>({});
-  const {controls, value} = useTimer({timeToUpdate: 16, startImmediately: false});
 
-  const timeLimit = roundData?.timeLimit;
-  useEffect(() => {
+  const [catchTimes, setCatchTimes] = useState<GobyTimes>(() => {
+    return roundData.gobies.reduce((gobyTimes, goby) => {
+      return {...gobyTimes, [goby.gobyId]: null};
+    }, {})
+  });
+
+  const {controls, value} = useTimer({timeToUpdate: 16, startImmediately: false});
+  useState(() => {
     if (roundData?.timeLimit) {
       controls.setCheckpoints([{
-        time: roundData?.timeLimit * 1000,
+        time: roundData.timeLimit * 1000,
         callback: controls.stop
       }]);
     }
-  }, [timeLimit]); // eslint-disable-line
+  });
 
   const recordCatchTime = (id: string) => (coordinate: Coordinate) => {
     const catchTime: CatchTime = {
@@ -59,9 +63,7 @@ export const useRoundTimer = (roundData: GameRound | null): UseRoundTimer => {
     return {
       key: trajectory.gobyId,
       gobyId: trajectory.gobyId,
-      position: catchTimes[trajectory.gobyId]
-        ? catchTimes[trajectory.gobyId].position
-        : trajectory.positions[decisecond],
+      position: catchTimes[trajectory.gobyId]?.position ?? trajectory.positions[decisecond],
       onClick: recordCatchTime(trajectory.gobyId),
       status: getFishStatus(catchTimes[trajectory.gobyId], value.state),
       bearing: trajectory.initialBearing,
@@ -71,8 +73,7 @@ export const useRoundTimer = (roundData: GameRound | null): UseRoundTimer => {
 
   const {clicks, onClick, ref} = useClickTracker(gobyProps, controls.getTime);
 
-  const isFinished = () => Boolean(roundData)
-    && (Object.values(catchTimes).length === roundData?.gobies.length || value.state === 'STOPPED');
+  const isFinished = () => !Object.values(catchTimes).includes(null) || value.state === 'STOPPED';
 
   useEffect(() => {
     if (isFinished()) {
@@ -81,17 +82,16 @@ export const useRoundTimer = (roundData: GameRound | null): UseRoundTimer => {
       const headers = {headers: {'Content-Type': 'application/json'}};
       const data: RoundResult = {
         uuid: user.uuid,
-        roundId: roundData!.roundId,
-        attempt: (user.attempts[String(roundData!.roundId)] ?? 0) + 1,
+        roundId: roundData.roundId,
+        attempt: (user.attempts[String(roundData.roundId)] ?? 0) + 1,
         totalTime: controls.getTime(),
-        numberOfGobies: roundData!.gobies.length,
-        foundAll: roundData!.gobies.length === Object.values(catchTimes).length,
-        catchTimes: Object.values(catchTimes),
+        foundAll: roundData.gobies.length === Object.values(catchTimes).length,
+        catchTimes: Object.entries(catchTimes).map(entry => ({gobyId: entry[0], catchTime: entry[1]})),
         missedClicks: clicks, // TODO: Currently only tracking missed clicks
       };
 
       axios.post('/api/result', data, headers)
-        .then(() => dispatch({type: UserActionType.ROUND_INCREMENT, roundId: roundData!.roundId}));
+        .then(() => dispatch({type: UserActionType.ROUND_INCREMENT, roundId: roundData.roundId}));
     }
   }, [isFinished()]); // eslint-disable-line
 

@@ -56,11 +56,7 @@ export const getResults = async (req: Request, res: Response) => {
     if (err) {
       return res.status(400).json({success: false, error: err});
     }
-    if (!results.length) {
-      return res
-        .status(404)
-        .json({success: false, error: "Round Result not found"});
-    }
+
     return res.status(200).json({success: true, data: results});
   }).catch(err => console.log(err));
 };
