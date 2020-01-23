@@ -10,7 +10,7 @@ import {CountdownTimer} from "../../components/CountdownTimer/CountdownTimer";
 export const Demo = () => {
   return (
     <Border>
-      <GiveUpButton to="/Game"/>
+      <GiveUpButton/>
       <CountdownTimer auto total={10}/>
       <div className={styles.Background}>
         <img src={gobyFigure} alt="" className={styles.GobyImage}/>

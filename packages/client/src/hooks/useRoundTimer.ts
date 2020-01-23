@@ -15,6 +15,7 @@ interface GobyTimes {
 interface UseRoundTimer extends Omit<UseClickTracker, 'clicks'> {
   gobies: GobyProps[];
   time: number;
+  onGiveUp(): void;
   startTimer(): void;
   hasStarted: boolean;
   isFinished: boolean;
@@ -31,6 +32,7 @@ const getFishStatus = (catchTime: CatchTime | null, timerState: TimerStateValues
 
 export const useRoundTimer = (roundData: GameRound): UseRoundTimer => {
   const [user, dispatch] = useUser();
+  const [hasGivenUp, setHasGivenUp] = useState(false);
 
   const [catchTimes, setCatchTimes] = useState<GobyTimes>(() => {
     return roundData.gobies.reduce((gobyTimes, goby) => {
@@ -47,6 +49,11 @@ export const useRoundTimer = (roundData: GameRound): UseRoundTimer => {
       }]);
     }
   });
+
+  const onGiveUp = () => {
+    setHasGivenUp(true);
+    controls.stop();
+  };
 
   const decisecond = Math.trunc(controls.getTime() / 100);
 
@@ -100,6 +107,7 @@ export const useRoundTimer = (roundData: GameRound): UseRoundTimer => {
         attempt: (user.attempts[String(roundData.roundId)] ?? 0) + 1,
         totalTime: controls.getTime(),
         foundAll: roundData.gobies.length === Object.values(catchTimes).length,
+        gaveUp: hasGivenUp,
         catchTimes: Object.entries(catchTimes).map(entry => ({gobyId: entry[0], catchTime: entry[1]})),
         misses: Object.entries(clicks).map(entry => ({gobyId: entry[0], missedClicks: entry[1]})),
       };
@@ -110,6 +118,7 @@ export const useRoundTimer = (roundData: GameRound): UseRoundTimer => {
   }, [isFinished()]); // eslint-disable-line
 
   return {
+    onGiveUp,
     onClick: value.state === "PLAYING" ? onClick : () => undefined,
     ref,
     gobies: gobyProps,

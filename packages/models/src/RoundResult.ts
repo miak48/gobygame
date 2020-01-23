@@ -26,6 +26,7 @@ export interface RoundResult {
   attempt: number;
   totalTime: number;
   foundAll: boolean;
+  gaveUp: boolean;
   catchTimes: {gobyId: string; catchTime: CatchTime | null}[];
   misses: {gobyId: string; missedClicks: MissedClick[]}[];
 }

@@ -17,12 +17,12 @@ interface RoundProps {
 }
 
 export const Round = ({data}: RoundProps) => {
-  const {gobies, time, startTimer, hasStarted, isFinished, ref, onClick} = useRoundTimer(data);
+  const {gobies, time, startTimer, hasStarted, isFinished, ref, onClick, onGiveUp} = useRoundTimer(data);
 
   return (
     <Border>
       <CountdownTimer total={10} seconds={time / 1000}/>
-      <GiveUpButton to={'/results'}/>
+      <GiveUpButton onClick={onGiveUp}/>
       <StartButton onClick={startTimer} disabled={gobies.length === 0} display={!hasStarted}/>
       {isFinished && hasStarted &&
       <div className={styles.Centered}>
