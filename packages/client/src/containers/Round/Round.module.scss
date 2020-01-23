@@ -17,38 +17,3 @@
   width: 100%;
   filter: brightness(.2);
 }
-
-.Timer {
-  background-color: green;
-  height: 20px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-}
-
-.Centered {
-  height: 80px;
-  width: 180px;
-
-  position: absolute;
-  margin: auto;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 10;
-
-  display: flex;
-  justify-content: space-between;
-}
-
-.ResultsButton {
-  background-color: orange;
-  color: $border-color;
-}
-
-.NextRoundButton {
-  background-color: hotpink;
-  color: $border-color;
-}

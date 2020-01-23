@@ -20,7 +20,7 @@ export const Landing = () => {
         </h4>
       </div>
 
-      <LinkButton to="/demo">
+      <LinkButton to="/rules">
         Play
       </LinkButton>
     </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Redirect, Route} from "react-router-dom";
 import {Landing} from "./containers/Landing/Landing";
-import {Demo} from "./containers/Demo/Demo";
+import {Practice} from "./containers/Practice/Practice";
 import {Result} from "./containers/Results/Results";
 import {UserProvider} from "./hooks/userContext";
 import {Error} from "./containers/Error/Error";
@@ -10,6 +10,7 @@ import {GamePlotter} from "./containers/GobyPlotter/GamePlotter";
 import {Game, RandomRound} from "./containers/Game/Game";
 import {GameRoundProvider} from "./hooks/gameRoundContext";
 import {Exporter} from "./containers/Exporter/Exporter";
+import {Rules} from "./containers/Rules/Rules";
 
 export const App = () => {
   const windowSize = useWindowSize();
@@ -21,7 +22,8 @@ export const App = () => {
         <GameRoundProvider>
           <BrowserRouter>
             <Route exact path="/" component={Landing}/>
-            <Route exact path="/demo" component={Demo}/>
+            <Route exact path="/rules" component={Rules}/>
+            <Route exact path="/practice" component={Practice}/>
             <Route exact path="/game" component={RandomRound}/>
             <Route exact path="/game/:round" component={Game}/>
             <Route exact path="/results" component={Result}/>

@@ -30,7 +30,7 @@ const getFishStatus = (catchTime: CatchTime | null, timerState: TimerStateValues
   return GobyStatus.SWIMMING
 };
 
-export const useRoundTimer = (roundData: GameRound): UseRoundTimer => {
+export const useRoundTimer = (roundData: GameRound, saveResult: boolean): UseRoundTimer => {
   const [user, dispatch] = useUser();
   const [hasGivenUp, setHasGivenUp] = useState(false);
 
@@ -112,7 +112,7 @@ export const useRoundTimer = (roundData: GameRound): UseRoundTimer => {
         misses: Object.entries(clicks).map(entry => ({gobyId: entry[0], missedClicks: entry[1]})),
       };
 
-      axios.post('/api/result', data, headers)
+      saveResult && axios.post('/api/result', data, headers)
         .then(() => dispatch({type: UserActionType.ROUND_INCREMENT, roundId: roundData.roundId}));
     }
   }, [isFinished()]); // eslint-disable-line

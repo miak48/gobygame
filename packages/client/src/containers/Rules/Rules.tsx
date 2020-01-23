@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Demo.module.scss';
+import styles from './Rules.module.scss';
 import gobyFigure from '../../assets/realgoby.png';
 import gobyFigure2 from '../../assets/realgoby2.png';
 import {Border} from "../../components/Border/Border";
@@ -7,7 +7,7 @@ import {LinkButton} from "../../components/LinkButton/LinkButton";
 import {GiveUpButton} from "../../components/GiveUpButton/GiveUpButton";
 import {CountdownTimer} from "../../components/CountdownTimer/CountdownTimer";
 
-export const Demo = () => {
+export const Rules = () => {
   return (
     <Border>
       <GiveUpButton/>
@@ -24,8 +24,8 @@ export const Demo = () => {
           <h4> * There are only 13 rounds - we'd love if you could play them all! </h4>
 
 
-          <LinkButton to="/Game" className={styles.DemoButton}>
-            Play
+          <LinkButton to="/practice" className={styles.Button}>
+            Practice
           </LinkButton>
         </div>
       </div>

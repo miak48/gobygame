@@ -13,12 +13,10 @@ export const useLeastPlayedRound = (): number | null => {
     }
   });
 
-  const allAttempts = gameRounds.map(round => {
-    return {
-      attempts: user.attempts[round.roundId] ?? 0,
-      roundId: round.roundId
-    }
-  });
+  const allAttempts = gameRounds.map(round => ({
+    attempts: user.attempts[round.roundId] ?? 0,
+    roundId: round.roundId
+  }));
 
   const minAttempts = Math.min(...allAttempts.map(a => a.attempts));
   const leastPlayedRounds = allAttempts.filter(b => b.attempts === minAttempts);

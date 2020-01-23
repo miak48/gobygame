@@ -1,0 +1,39 @@
+@import "../../variables";
+
+.Centered {
+  height: 110px;
+  width: 220px;
+
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.Message {
+  color: white;
+  font-weight: bolder;
+  margin: 0 auto;
+}
+
+.Options {
+  display: flex;
+  justify-content: space-around;
+}
+
+.ResultsButton {
+  background-color: orange;
+  color: $border-color;
+}
+
+.NextRoundButton {
+  background-color: hotpink;
+  color: $border-color;
+}
