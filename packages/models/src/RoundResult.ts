@@ -8,9 +8,10 @@ export interface GobyCoordinates {
 
 export interface CatchTime extends GobyCoordinates {
   time: number;
-  nearestNeighbor: string | null;
-  nearestNeighborPosition: Coordinate | null;
-  nearestNeighborDistance: number | null;
+  distanceToGoby1: number | null;
+  distanceToGoby2: number | null;
+  distanceToGoby3: number | null;
+  distanceToGoby4: number | null;
 }
 
 export interface MissedClick {

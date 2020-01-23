@@ -6,7 +6,6 @@ import {GobyProps, GobyStatus} from "../components/Goby/Goby";
 import {CatchTime, Coordinate, GameRound, RoundResult} from "@gobygame/models";
 import {useClickTracker, UseClickTracker} from "./useClickTracker";
 import {findDistanceBetween} from "../utilities/findDistanceBetween";
-import {findMinInObject} from "../utilities/findMinObject";
 
 
 interface GobyTimes {
@@ -52,22 +51,22 @@ export const useRoundTimer = (roundData: GameRound): UseRoundTimer => {
   const decisecond = Math.trunc(controls.getTime() / 100);
 
   const recordCatchTime = (gobyId: string) => (coordinate: Coordinate) => {
-    const undiscoveredGobies = roundData.gobies
-      .filter(trajectory => trajectory.gobyId !== gobyId && catchTimes[trajectory.gobyId] === null)
+    const gobiesDistances = roundData.gobies
+      .filter(trajectory => trajectory.gobyId !== gobyId)
       .map(trajectory => ({
         gobyId: trajectory.gobyId,
         position: trajectory.positions[decisecond],
         distance: findDistanceBetween(coordinate, trajectory.positions[decisecond]),
       }));
 
-    const closestUndiscoveredGoby = findMinInObject(undiscoveredGobies, 'distance');
     const catchTime: CatchTime = {
       gobyId,
       time: controls.getTime(),
       position: coordinate,
-      nearestNeighbor: closestUndiscoveredGoby?.gobyId ?? null,
-      nearestNeighborPosition: closestUndiscoveredGoby?.position ?? null,
-      nearestNeighborDistance: closestUndiscoveredGoby?.distance ?? null,
+      distanceToGoby1: gobiesDistances.find(goby => goby.gobyId.includes('Goby1'))?.distance ?? null,
+      distanceToGoby2: gobiesDistances.find(goby => goby.gobyId.includes('Goby2'))?.distance ?? null,
+      distanceToGoby3: gobiesDistances.find(goby => goby.gobyId.includes('Goby3'))?.distance ?? null,
+      distanceToGoby4: gobiesDistances.find(goby => goby.gobyId.includes('Goby4'))?.distance ?? null,
     };
 
     setCatchTimes({...catchTimes, [gobyId]: catchTime})
@@ -111,7 +110,7 @@ export const useRoundTimer = (roundData: GameRound): UseRoundTimer => {
   }, [isFinished()]); // eslint-disable-line
 
   return {
-    onClick,
+    onClick: value.state === "PLAYING" ? onClick : () => undefined,
     ref,
     gobies: gobyProps,
     time: controls.getTime(),
