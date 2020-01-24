@@ -23,7 +23,6 @@ export const Rules = () => {
           <h4> * You can give up at any point by pressing the 'give up' button </h4>
           <h4> * There are only 13 rounds - we'd love if you could play them all! </h4>
 
-
           <LinkButton to="/practice" className={styles.Button}>
             Practice
           </LinkButton>
