@@ -6,6 +6,7 @@ import {useLeastPlayedRound} from "../../hooks/useLeastPlayedRound";
 import {useUser} from "../../hooks/userContext";
 import styles from "./Game.module.scss";
 import {CircleButton} from "../../components/CircleButton/CircleButton";
+import {Centered} from "../../components/Centered/Centered";
 
 
 type GameProps = RouteComponentProps<{ round: string }>;
@@ -17,8 +18,12 @@ export const Game = ({match}: GameProps) => {
 
   const roundsPlayed = Object.values(user.attempts).reduce((a, b) => a + b, 0);
 
+  const preGameMessages = roundsPlayed <= gameRounds.length
+    ? (<div>Round {roundsPlayed + 1} of {gameRounds.length}</div>)
+    : undefined;
+
   const postGame = (
-    <div className={styles.Centered}>
+    <Centered height={110} width={220}>
       <div className={styles.Message}>
         {roundsPlayed <= gameRounds.length
           ? `Completed ${roundsPlayed} of ${gameRounds.length} rounds!`
@@ -39,11 +44,11 @@ export const Game = ({match}: GameProps) => {
           </CircleButton>
         </Link>
       </div>
-    </div>
+    </Centered>
   );
 
   return currentRound
-    ? <Round data={currentRound} saveResult PostRoundOptions={postGame}/>
+    ? <Round data={currentRound} saveResult PostRoundOptions={postGame} PreRoundInstructions={preGameMessages}/>
     : <Redirect to={'/game'}/>;
 };
 

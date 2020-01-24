@@ -20,7 +20,10 @@ export const Result = () => {
           <div className={cx(styles.Header, styles.Number)}>Attempt</div>
           <div className={cx(styles.Header, styles.Number)}>Total Time (s)</div>
           {results
-            ? results.map((result, index) => {
+            ? results
+              .filter(result => !result.gaveUp)
+              .sort((a, b) => a.totalTime <= b.totalTime ? -1 : 1)
+              .map((result, index) => {
               const isUserResult = user.uuid === result.uuid;
               return (
                 <React.Fragment key={index}>

@@ -8,25 +8,30 @@ import {useRoundTimer} from "../../hooks/useRoundTimer";
 import {StartButton} from "../../components/StartButton/StartButton";
 import cx from 'classnames';
 import {GameRound} from "@gobygame/models";
+import {Centered} from "../../components/Centered/Centered";
 
 
 interface RoundProps {
   data: GameRound;
   saveResult: boolean;
-  PostRoundOptions: ReactNode,
+  PostRoundOptions: ReactNode;
+  PreRoundInstructions: ReactNode;
 }
 
-export const Round = ({data, saveResult, PostRoundOptions}: RoundProps) => {
+export const Round = ({data, saveResult, PostRoundOptions, PreRoundInstructions}: RoundProps) => {
   const {gobies, time, startTimer, hasStarted, isFinished, ref, onClick, onGiveUp} = useRoundTimer(data, saveResult);
 
   return (
     <Border>
       <CountdownTimer total={10} seconds={time / 1000}/>
       <GiveUpButton onClick={onGiveUp}/>
-      <StartButton onClick={startTimer} disabled={gobies.length === 0} display={!hasStarted}/>
-      {isFinished && hasStarted &&
-        PostRoundOptions
+      {!hasStarted &&
+        <Centered height={135} width={'100%'}>
+          {PreRoundInstructions}
+          <StartButton onClick={startTimer}/>
+        </Centered>
       }
+      {isFinished && hasStarted && PostRoundOptions}
       {gobies.map(goby => (
         <Goby {...goby} display={hasStarted}/>
       ))}

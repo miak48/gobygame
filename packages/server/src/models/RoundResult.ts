@@ -7,8 +7,8 @@ const RoundResultSchema = new Schema(
     roundId: {type: Number, required: true},
     attempt: {type: Number, required: true},
     totalTime: {type: Number, required: true},
-    foundAll: {type: Number, required: true},
-    gaveUp: {type: Number, required: true},
+    foundAll: {type: Boolean, required: true},
+    gaveUp: {type: Boolean, required: true},
     catchTimes: [{
       gobyId: {type: String, required: true},
       catchTime: Object
