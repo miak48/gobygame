@@ -4,10 +4,6 @@
     "timeLimit": 10,
     "gobies": [
       {
-    "roundId": 0,
-    "timeLimit": 10,
-    "gobies": [
-      {
         "gobyId": "Round0-Goby1",
         "initialBearing": 208,
         "image": 1,
