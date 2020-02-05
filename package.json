@@ -17,6 +17,7 @@
     "lerna": "^3.20.2"
   },
   "dependencies": {
-    "react-csv": "^1.1.2"
+    "react-csv": "^1.1.2",
+    "react-pdf": "^4.1.0"
   }
 }

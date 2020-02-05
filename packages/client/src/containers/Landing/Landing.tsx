@@ -2,6 +2,8 @@ import React from 'react';
 import styles from './Landing.module.scss';
 import {Border} from "../../components/Border/Border";
 import {LinkButton} from "../../components/LinkButton/LinkButton";
+import PDF from "../../assets/PIS_GobyGame.jpg";
+
 
 export const Landing = () => {
   const link = 'https://sydney.edu.au/science/our-research/research-areas/life-and-environmental-sciences/animal-behaviour-lab.html';
@@ -16,9 +18,12 @@ export const Landing = () => {
           great when it comes to avoiding detection by deadly predators, it doesn't help much when they need to move around to find food
           or mates. Our lab at the <a href={link}>University of Sydney</a> is trying to understand how these
           fish balance the need to move against the need to stay still. If you want to help us, try our game! You'll
-          play the part of the predator searching for a yummy goby meal.
+          play the part of the predator searching for a yummy goby meal. 
         </h4>
-      </div>
+        <h4>
+          Please read this important <a href={PDF} target="_blank">Participant information</a> before playing.
+        </h4>
+        </div>
 
       <LinkButton to="/rules">
         Play

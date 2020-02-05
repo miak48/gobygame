@@ -5,7 +5,7 @@
     {
       "gobyId": "Round1-Goby1",
       "initialBearing": 97,
-      "image": 2,
+      "image": 1,
       "positions": [
         {"x": 300, "y": 400},
 
@@ -239,7 +239,7 @@
     {
       "gobyId": "Round1-Goby3",
       "initialBearing": 183,
-      "image": 2,
+      "image": 1,
       "positions": [
         {"x": 200, "y": 578},
 
