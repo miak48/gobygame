@@ -1,4 +1,7 @@
-.square {
-  height: 75px;
+.Goby {
+  height: 100px;
   position: absolute;
+
+  transition: left 150ms linear, top 150ms linear;
+  z-index: 5;
 }

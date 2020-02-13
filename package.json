@@ -1,6 +1,23 @@
 {
+  "name": "gobygame",
   "private": true,
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "engines": {
+    "node": "13.x"
+  },
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna exec -- yarn build",
+    "postinstall": "yarn bootstrap",
+    "start": "docker-compose up -d --build"
+  },
+  "devDependencies": {
+    "lerna": "^3.20.2"
+  },
+  "dependencies": {
+    "react-csv": "^1.1.2",
+    "react-pdf": "^4.1.0"
+  }
 }

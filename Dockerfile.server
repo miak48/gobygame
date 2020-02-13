@@ -1,0 +1,16 @@
+FROM node:slim
+
+WORKDIR /app
+
+RUN yarn global add lerna
+
+COPY package.json .
+COPY lerna.json .
+COPY packages/models ./packages/models
+COPY packages/server ./packages/server
+
+RUN yarn install
+RUN lerna bootstrap
+
+EXPOSE 8000
+CMD [ "yarn", "--cwd", "packages/server", "start" ]

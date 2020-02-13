@@ -1,0 +1,15 @@
+@import "../../variables";
+
+
+.StartButton {
+  margin: auto;
+  z-index: 10;
+
+  background-color: green;
+  color: $border-color;
+
+  &:disabled {
+    background-color: gray;
+    color: lightgray;
+  }
+}
