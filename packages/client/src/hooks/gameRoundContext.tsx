@@ -54,7 +54,7 @@ const gameRoundMiddleware = (dispatch: Dispatch<ReducerAction<GameRoundReducer<a
       case RoundActions.FETCH_ROUNDS_REQUEST: {
         axios.get(`/api/rounds`)
           .then(response => dispatch({type: RoundActions.FETCH_ROUNDS_SUCCESS, payload: response.data.data}))
-          .catch(error => dispatch({type: RoundActions.FETCH_ROUNDS_SUCCESS, payload: error}));
+          .catch(error => dispatch({type: RoundActions.FETCH_ROUNDS_FAILURE, payload: error}));
 
         dispatch(action);
         break;

@@ -38,6 +38,9 @@ export const Round = ({data, saveResult, PostRoundOptions, PreRoundInstructions}
       <div
         ref={ref}
         className={cx(styles.Game, {[styles.Overlay]: !hasStarted || isFinished})}
+        style={{
+          zIndex: !hasStarted ? 7 : 0,
+        }}
         onClick={onClick}
       />
     </Border>

@@ -8,12 +8,12 @@ export const useLeastPlayedRound = (): number | null => {
   const [{gameRounds}, dispatch] = useGameRounds();
 
   useState(() => {
-    if (gameRounds.length === 0) {
+    if (gameRounds?.length === 0) {
       dispatch({type: RoundActions.FETCH_ROUNDS_REQUEST});
     }
   });
 
-  const allAttempts = gameRounds.map(round => ({
+  const allAttempts = gameRounds?.map(round => ({
     attempts: user.attempts[round.roundId] ?? 0,
     roundId: round.roundId
   }));
