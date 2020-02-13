@@ -27,7 +27,7 @@ export const Game = ({match}: GameProps) => {
       <div className={styles.Message}>
         {roundsPlayed <= gameRounds.length
           ? `Completed ${roundsPlayed} of ${gameRounds.length} rounds!`
-          : "You've completed the game!"
+          : "You've completed all the rounds!"
         }
       </div>
       <div className={styles.Options}>
