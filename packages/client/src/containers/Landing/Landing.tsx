@@ -21,7 +21,7 @@ export const Landing = () => {
           play the part of the predator searching for a yummy goby meal. 
         </h4>
         <h4>
-          Please read this important <a href={PDF} target="_blank">Participant information</a> before playing.
+          Please read this important <a href={PDF} target="_blank">Participant information</a> before participating.
         </h4>
         </div>
 
