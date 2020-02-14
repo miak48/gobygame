@@ -5,7 +5,7 @@
   },
   "proxies": {
     "/api/": {
-      "origin": "https://gobygame-staging-server.herokuapp.com/api"
+      "origin": "https://${API_APP_NAME}.herokuapp.com/api"
     }
   }
 }
